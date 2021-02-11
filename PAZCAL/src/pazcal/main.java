@@ -15,7 +15,14 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        
+        String arg = null;
+        
+        arg = args[0];
+        
+        ArchivoInfo archivo = new ArchivoInfo(arg);
+        
     }
     
 }
