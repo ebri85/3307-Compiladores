@@ -109,7 +109,7 @@ public class ArchivoInfo {
     public String toString() {
         return "ArchivoInfo{" + "\narchivo = " + archivo
                 + "\nnombArchivo= " + nombArchivo
-                + "\npathEjecucionPazcal= " + pathEjecucionPazcal
+                + "\npathEjecucionPazcal= " + pathEjecucionPazcal.toString()
                 + "\npathCompletaPazcal= " + pathCompletaPazcal
                 + "\nstrDirectorioEjecucionPazcal= " + strDirectorioEjecucionPazcal
                 + "\nextensionPazcal= " + extensionPazcal + '}';
