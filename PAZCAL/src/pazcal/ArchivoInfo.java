@@ -104,46 +104,15 @@ public class ArchivoInfo {
         }
     }
 
-    protected String ModificaExtensionArchivo(String nombreArchivo, String nuevaExtension) {
-        try {
-            boolean error = true;
-            String resultado = null;
-
-            while (error) {
-                Pattern ptr = Pattern.compile("\\.([a-z]*)", Pattern.CASE_INSENSITIVE);
-                Matcher match = ptr.matcher(nombreArchivo);
-
-                resultado = match.replaceAll(nuevaExtension.toLowerCase());
-                error = false;
-
-            };
-            return resultado;
-
-        } catch (Exception e) {
-            System.out.println("Clase ArchivoInfo -> ModificaExtensionArchivo()=> " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void CargaArchivoPazcal() {
-        try {
-
-        } catch (Exception e) {
-            System.out.println("Clase ArchivoInfo -> CargaArchivoPazcal()=> " + e.getMessage());
-            e.printStackTrace();
-
-        }
-    }
 
     @Override
     public String toString() {
-        return "ArchivoInfo{" + "archivo=" + archivo
-                + "\nnombArchivo=" + nombArchivo
-                + "\npathEjecucionPazcal=" + pathEjecucionPazcal
-                + "\npathCompletaPazcal=" + pathCompletaPazcal
-                + "\nstrDirectorioEjecucionPazcal=" + strDirectorioEjecucionPazcal
-                + "\nextensionPazcal=" + extensionPazcal + '}';
+        return "ArchivoInfo{" + "\narchivo = " + archivo
+                + "\nnombArchivo= " + nombArchivo
+                + "\npathEjecucionPazcal= " + pathEjecucionPazcal
+                + "\npathCompletaPazcal= " + pathCompletaPazcal
+                + "\nstrDirectorioEjecucionPazcal= " + strDirectorioEjecucionPazcal
+                + "\nextensionPazcal= " + extensionPazcal + '}';
     }
 
 }
