@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author ebri_85
+ * @author Esau Brizuela Ruiz
  */
 public class ArchivoInfo {
 
@@ -90,8 +90,8 @@ public class ArchivoInfo {
 
                 Pattern ptr = Pattern.compile(".PAZCAL", Pattern.CASE_INSENSITIVE);
                 Matcher match = ptr.matcher(this.archivo);
-                resultado = match.find()  ;
-                
+                resultado = match.find();
+
                 //System.out.println("es Pazcal =>"+ resultado);
                 error = false;
             }
@@ -103,7 +103,6 @@ public class ArchivoInfo {
             return false;
         }
     }
-
 
     @Override
     public String toString() {

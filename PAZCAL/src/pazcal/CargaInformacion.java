@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author ebri_
+ * @author Esau Brizuela Ruiz
  */
 public class CargaInformacion {
 
@@ -62,7 +62,6 @@ public class CargaInformacion {
             } else {
                 throw new Exception("Archivo No existe ->" + archivo.archivo);
             }
-            
 
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> CargaCodigo()=> " + e.getMessage());
@@ -77,16 +76,16 @@ public class CargaInformacion {
             InputStreamReader iStR = new InputStreamReader(iSt);
             BufferedReader bR = new BufferedReader(iStR);
             String reservada = null;
-            
-            do{
+
+            do {
                 reservada = bR.readLine();
                 this.reservadasPascal.add(reservada);
-            }while(reservada!=null);
-            
+            } while (reservada != null);
+
             System.out.println(this.reservadasPascal);
             return true;
         } catch (Exception e) {
-             System.out.println("Clase CargaInformacion-> CargaReservadas()=> " + e.getMessage());
+            System.out.println("Clase CargaInformacion-> CargaReservadas()=> " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -98,28 +97,28 @@ public class CargaInformacion {
             int j = 0;
             String str1 = null;
             String str2 = null;
-            
-            if(this.codigoArchivo.isEmpty()){
+
+            if (this.codigoArchivo.isEmpty()) {
                 throw new Exception("Lista Codigo se encuentra vacia");
-                
+
             }
-            
-            for(String ln : this.codigoArchivo){
+
+            for (String ln : this.codigoArchivo) {
                 j = this.codigoArchivo.lastIndexOf(i);
-                
-                if(ln.isEmpty()){
+
+                if (ln.isEmpty()) {
                     j = i;
-                    
-                }else {
+
+                } else {
                     i++;
-                    j=i;
+                    j = i;
                 }
-                str1 = String.format("%05d",j);
-                str2 = str1+" "+ln;
+                str1 = String.format("%05d", j);
+                str2 = str1 + " " + ln;
                 this.lineasParaArhivoErrores.add(str2);
             }
             System.out.println(this.lineasParaArhivoErrores);
-            
+
             return false;
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> CargaErrores()=> " + e.getMessage());

@@ -27,7 +27,7 @@ public class main {
         try {
             ArchivoInfo infoArchivoPazcal = new ArchivoInfo(archivoPazcal);
             CargaInformacion cargaInformacion = new CargaInformacion(infoArchivoPazcal);
-            
+
             System.out.println(infoArchivoPazcal.toString());
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());
