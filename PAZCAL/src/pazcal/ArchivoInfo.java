@@ -7,6 +7,8 @@ package pazcal;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -15,8 +17,12 @@ import java.nio.file.Paths;
 public class ArchivoInfo {
 
     protected String archivo;
-    protected Path directorio = Paths.get("");
     protected String nombArchivo;
+    protected Path pathEjecucionPazcal = Paths.get("");
+    protected Path pathCompletaPazcal = pathEjecucionPazcal.toAbsolutePath();
+    protected String strDirectorioEjecucionPazcal = pathCompletaPazcal.toString();
+
+    protected boolean extensionPazcal;
 
     public ArchivoInfo() {
 
@@ -24,6 +30,120 @@ public class ArchivoInfo {
 
     public ArchivoInfo(String arg) {
         this.archivo = arg;
+        GeneraDatos();
+    }
+
+    private void GeneraDatos() {
+        try {
+            this.nombArchivo = NombreArchivo();
+            this.extensionPazcal = EsArchivoPazcal();
+
+        } catch (Exception e) {
+            System.out.println("Clase ArchivoInfo -> GeneraDatos()=> " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private String NombreArchivo() {
+        try {
+            int indicePunto = 0;
+            String resultado = null;
+            String str = this.pathEjecucionPazcal.resolve(this.archivo).getFileName().toString();
+            indicePunto = str.indexOf(".");
+            //System.out.println(str.indexOf("."));
+
+            // System.out.println(resultado);
+            boolean esTrue = true;
+            //boolean mtch =false;
+            while (esTrue) {
+
+                //  Pattern ptr = Pattern.compile("^a-z0-9&&[^\\w]*", Pattern.CASE_INSENSITIVE);
+                Pattern ptr = Pattern.compile("[^.]*", Pattern.CASE_INSENSITIVE);
+                Matcher match = ptr.matcher(str.substring(0, indicePunto));
+                //mtch = match.matches();
+
+                //System.out.print(mtch);
+                if (match.matches()) {
+                    resultado = str.substring(0, indicePunto);
+                    esTrue = false;
+                } else {
+
+                    throw new Exception("El nombre del archivo no cumple", null);
+                }
+
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            System.out.println("Clase ArchivoInfo -> NombreArchivo()=> " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private boolean EsArchivoPazcal() {
+        try {
+            boolean error = true;
+            boolean resultado = false;
+
+            while (error) {
+
+                Pattern ptr = Pattern.compile(".PAZCAL", Pattern.CASE_INSENSITIVE);
+                Matcher match = ptr.matcher(this.archivo);
+                resultado = match.find()  ;
+                
+                //System.out.println("es Pazcal =>"+ resultado);
+                error = false;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            System.out.println("Clase ArchivoInfo -> EsArchivoPazcal()=> " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    protected String ModificaExtensionArchivo(String nombreArchivo, String nuevaExtension) {
+        try {
+            boolean error = true;
+            String resultado = null;
+
+            while (error) {
+                Pattern ptr = Pattern.compile("\\.([a-z]*)", Pattern.CASE_INSENSITIVE);
+                Matcher match = ptr.matcher(nombreArchivo);
+
+                resultado = match.replaceAll(nuevaExtension.toLowerCase());
+                error = false;
+
+            };
+            return resultado;
+
+        } catch (Exception e) {
+            System.out.println("Clase ArchivoInfo -> ModificaExtensionArchivo()=> " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void CargaArchivoPazcal() {
+        try {
+
+        } catch (Exception e) {
+            System.out.println("Clase ArchivoInfo -> CargaArchivoPazcal()=> " + e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ArchivoInfo{" + "archivo=" + archivo
+                + "\nnombArchivo=" + nombArchivo
+                + "\npathEjecucionPazcal=" + pathEjecucionPazcal
+                + "\npathCompletaPazcal=" + pathCompletaPazcal
+                + "\nstrDirectorioEjecucionPazcal=" + strDirectorioEjecucionPazcal
+                + "\nextensionPazcal=" + extensionPazcal + '}';
     }
 
 }
