@@ -5,6 +5,7 @@
  */
 package pazcal;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
@@ -35,8 +36,14 @@ public class ArchivoInfo {
 
     private void GeneraDatos() {
         try {
-            this.nombArchivo = NombreArchivo();
-            this.extensionPazcal = EsArchivoPazcal();
+            File file = new File(this.archivo);
+
+            if (file.exists()) {
+                this.nombArchivo = NombreArchivo();
+                this.extensionPazcal = EsArchivoPazcal();
+            }else {
+                throw new Exception("El archivo no existe", null);
+            }
 
         } catch (Exception e) {
             System.out.println("Clase ArchivoInfo -> GeneraDatos()=> " + e.getMessage());

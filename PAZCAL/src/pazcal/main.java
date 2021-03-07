@@ -18,15 +18,25 @@ public class main {
      */
     public static void main(String[] args) {
 
-        String arg = null;
-        arg = args[0];
-        Ejecuta(arg);
+        if (args.length > 0) {
+            String arg = null;
+            arg = args[0];
+            Ejecuta(arg);
+
+        } else {
+            System.out.println("No se indico el nombre del archivo a procesar");
+
+        }
+
     }
 
     public static void Ejecuta(String archivoPazcal) {
         try {
             ArchivoInfo infoArchivoPazcal = new ArchivoInfo(archivoPazcal);
             CargaInformacion cargaInformacion = new CargaInformacion(infoArchivoPazcal);
+            Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
+            
+            
 
             System.out.println(infoArchivoPazcal.toString());
         } catch (Exception e) {

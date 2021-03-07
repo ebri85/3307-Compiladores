@@ -24,7 +24,7 @@ public class CargaInformacion {
 
     protected List<String> codigoArchivo = Collections.emptyList();
     protected ArrayList<String> reservadasPascal = new ArrayList();
-    protected ArrayList<String> lineasParaArhivoErrores = new ArrayList();
+    protected ArrayList<String> lineasParaArchivoErrores = new ArrayList();
 
     public CargaInformacion() {
 
@@ -115,9 +115,9 @@ public class CargaInformacion {
                 }
                 str1 = String.format("%05d", j);
                 str2 = str1 + " " + ln;
-                this.lineasParaArhivoErrores.add(str2);
+                this.lineasParaArchivoErrores.add(str2);
             }
-            System.out.println(this.lineasParaArhivoErrores);
+            System.out.println(this.lineasParaArchivoErrores);
 
             return false;
         } catch (Exception e) {
@@ -125,6 +125,27 @@ public class CargaInformacion {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void AgregaError(int nl, String msg) {
+        try {
+            
+            this.lineasParaArchivoErrores.add(nl, "\n" + "Error => " + msg);
+            
+        } catch (Exception e) {
+            System.out.println("Clase CargaInformacion-> AgregaError()=> " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CargaInformacion"
+                + "{" + "archivo=" + archivo
+                + "codigoArchivo=" + codigoArchivo
+                + "reservadasPascal=" + reservadasPascal
+                + ", lineasParaArchivoErrores=" + lineasParaArchivoErrores
+                + '}';
     }
 
 }
