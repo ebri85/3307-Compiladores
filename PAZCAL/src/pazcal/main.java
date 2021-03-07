@@ -36,6 +36,8 @@ public class main {
             CargaInformacion cargaInformacion = new CargaInformacion(infoArchivoPazcal);
             Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
             
+            generador.Compila();
+            
             
 
             System.out.println(infoArchivoPazcal.toString());
