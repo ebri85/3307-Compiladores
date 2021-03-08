@@ -82,7 +82,7 @@ public class CargaInformacion {
                 this.reservadasPascal.add(reservada);
             } while (reservada != null);
 
-            System.out.println(this.reservadasPascal);
+           // System.out.println(this.reservadasPascal);
             return true;
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> CargaReservadas()=> " + e.getMessage());
@@ -117,7 +117,7 @@ public class CargaInformacion {
                 str2 = str1 + " " + ln;
                 this.lineasParaArchivoErrores.add(str2);
             }
-            System.out.println(this.lineasParaArchivoErrores);
+            //System.out.println(this.lineasParaArchivoErrores);
 
             return false;
         } catch (Exception e) {

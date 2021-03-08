@@ -32,15 +32,15 @@ public class main {
 
     public static void Ejecuta(String archivoPazcal) {
         try {
+            System.out.println("Compilando...");
             ArchivoInfo infoArchivoPazcal = new ArchivoInfo(archivoPazcal);
             CargaInformacion cargaInformacion = new CargaInformacion(infoArchivoPazcal);
             Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
-            
-            generador.Compila();
-            
-            
 
-            System.out.println(infoArchivoPazcal.toString());
+            Valida valida = new Valida(cargaInformacion);
+            
+            generador.Compila();           
+
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());
             e.printStackTrace();

@@ -30,6 +30,7 @@ public class ArchivoInfo {
     }
 
     public ArchivoInfo(String arg) {
+        System.out.println("Obteniendo Informacion del Archivo...");
         this.archivo = arg;
         GeneraDatos();
     }

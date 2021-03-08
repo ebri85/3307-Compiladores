@@ -22,24 +22,22 @@ public class Valida {
     }
 
     public Valida(Object o) {
+        System.out.println("Validando...");
         this.cargaInformacion = (CargaInformacion) o;
+        RealizaValidaciones();
     }
-
+//Pendiente enviar errores a archivo Errores
     protected void RealizaValidaciones() {
         try {
             int i = 0;
+
             boolean encuentraReservada = false;
             boolean validaProgram = false;
             for (String ln : this.cargaInformacion.codigoArchivo) {
-                i = ValidaTamanoLinea(ln);
-                encuentraReservada = EncuentraReservadas(ln);
-                if (!encuentraReservada) {
-                    i += ValidaPuntoyComa(ln);
-                    i += ValidaComentarios(ln, this.cargaInformacion.codigoArchivo.indexOf(ln));
-                    validaProgram = ValidaProgram(ln);
-                } else {
-                    continue;
-                }
+                System.out.println("Linea -> " + ln);
+
+               i = ValidaTamanoLinea(ln);
+               i += ValidaPuntoyComa(ln);
 
             }
         } catch (Exception e) {
@@ -55,9 +53,9 @@ public class Valida {
             boolean imprime;
             resultado = (ln.length() < 150) ? 1 : 0;
             if (resultado > 0) {
-                System.out.println("Tamano Correcto Linea");
+                System.out.println("Linea -> "+ln+"\nTamano Correcto Linea");
             } else {
-                System.out.println("Tamano Incorrecto Linea");
+                System.out.println("Linea -> "+ln+"\nTamano Incorrecto Linea");
             }
             return resultado;
 
@@ -72,16 +70,16 @@ public class Valida {
     private int ValidaPuntoyComa(String ln) {
         try {
             int resultado;
-            String str = ";$";
+            String str = "\\;$";
 
             Pattern ptr = Pattern.compile(str);
             Matcher mtch = ptr.matcher(ln);
-            resultado = (mtch.matches()) ? 1 : 0;
+            resultado = (mtch.find()) ? 1 : 0;
 
             if (resultado > 0) {
-                System.out.println("Contiene punto y coma");
+                System.out.println("Linea -> "+ln+"\nContiene punto y coma");
             } else {
-                System.out.println("No contiene punto y coma");
+                System.out.println("Linea -> "+ln+"\nNo contiene punto y coma");
             }
 
             return resultado;
@@ -138,29 +136,32 @@ public class Valida {
         }
     }
 
-    private boolean EncuentraReservadas(String ln) {
+    protected boolean EncuentraReservadas(String ln) {
         try {
-            boolean resultado;
+            boolean resultado = false;
             int cont = 0;
-            String[] arr = ln.split("\\s");
-            for (int i = 0; i < arr.length; i++) {
-                for (String reservada : this.cargaInformacion.reservadasPascal) {
-                    Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
-                    Matcher match = ptr.matcher(arr[i]);
+            boolean continua = true;
 
-                    cont = (match.find()) ? cont++ : 0;
+            while (continua) {
+                String[] arr = ln.split("\\s");
+                for (String reservada : this.cargaInformacion.reservadasPascal) {
+
+                    for (int i = 0; i < arr.length; i++) {
+                        Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
+                        Matcher mt = ptr.matcher(arr[i]);
+                        if (mt.find()) {
+                            cont++;
+                        }
+
+                    }
 
                 }
+                continua = false;
             }
 
             resultado = (cont > 0);
 
-            if (resultado) {
-                System.out.println("Encontro Reservadas");
-            } else {
-                System.out.println("Encontro Reservadas");
-            }
-
+            //System.out.println("Se encontraron " + cont + " reservadas");
             return resultado;
 
         } catch (Exception e) {

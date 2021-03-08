@@ -26,6 +26,7 @@ public class Generador {
     }
 
     public Generador(CargaInformacion cI, ArchivoInfo iA) {
+        System.out.println("Generando Archivos...");
         this.cargaInformacion = cI;
         this.infoArchivo = iA;
 
