@@ -48,7 +48,7 @@ public class Valida {
 
     private int ValidaTamanoLinea(String ln) {
         try {
-
+            
             int resultado;
             boolean imprime;
             resultado = (ln.length() < 150) ? 1 : 0;
