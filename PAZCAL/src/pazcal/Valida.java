@@ -27,100 +27,96 @@ public class Valida {
         RealizaValidaciones();
     }
 //Pendiente enviar errores a archivo Errores
+
     protected void RealizaValidaciones() {
         try {
             int i = 0;
 
             boolean encuentraReservada = false;
             boolean validaProgram = false;
-            for (String ln : this.cargaInformacion.codigoArchivo) {
-                System.out.println("Linea -> " + ln);
-
-               i = ValidaTamanoLinea(ln);
-               i += ValidaPuntoyComa(ln);
-
-            }
+//            for (String ln : this.cargaInformacion.codigoArchivo) {
+//                System.out.println("Linea -> " + ln);
+//                
+//            }
+            ValidaComentarios();
         } catch (Exception e) {
             System.out.println("Clase Valida-> RealizaValidaciones()=> " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private int ValidaTamanoLinea(String ln) {
+    private void ValidaTamanoLinea(String ln, int nLn) {
         try {
-            
-            int resultado;
-            boolean imprime;
-            resultado = (ln.length() < 150) ? 1 : 0;
-            if (resultado > 0) {
-                System.out.println("Linea -> "+ln+"\nTamano Correcto Linea");
+
+            boolean resultado;
+            String msgE = "ERROR 0001: Linea con mas de los caracteres soportados";
+            System.out.println("Cantidad de Caracteres = " + ln.length());
+            resultado = (ln.length() <= 150);
+            if (resultado) {
+                System.out.println("Linea -> " + ln + "\nTamano Correcto Linea");
             } else {
-                System.out.println("Linea -> "+ln+"\nTamano Incorrecto Linea");
+                System.out.println("Linea -> " + ln + "\nTamano Incorrecto Linea");
+                MensajeError(msgE, nLn);
             }
-            return resultado;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaTamanoLinea()=> " + e.getMessage());
             e.printStackTrace();
-            return -1;
 
         }
     }
 
-    private int ValidaPuntoyComa(String ln) {
+    private void ValidaPuntoyComa(String ln, int nLn) {
         try {
             int resultado;
-            String str = "\\;$";
+            String msgE = "ERROR 0002: Instruccion no termina con =>;";
+            String str = ".*\\;$";
 
             Pattern ptr = Pattern.compile(str);
             Matcher mtch = ptr.matcher(ln);
-            resultado = (mtch.find()) ? 1 : 0;
 
-            if (resultado > 0) {
-                System.out.println("Linea -> "+ln+"\nContiene punto y coma");
+            if (mtch.matches()) {
+                System.out.println("Linea -> " + ln + "\nContiene punto y coma");
             } else {
-                System.out.println("Linea -> "+ln+"\nNo contiene punto y coma");
+                System.out.println("Linea -> " + ln + "\nNo contiene punto y coma");
+                MensajeError(msgE, nLn);
             }
-
-            return resultado;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaPuntoyComa()=> " + e.getMessage());
             e.printStackTrace();
-            return -1;
 
         }
     }
 
-    private int ValidaBlancos(String ln) {
+    private void ValidaBlancos(String ln, int nLn) {
         try {
-            int resultado;
+
+            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
             String str = "[\\s]{150,}";
             Pattern ptr = Pattern.compile(str);
 
             Matcher match = ptr.matcher(ln);
 
-            resultado = (match.matches()) ? 1 : 0;
-
-            if (resultado > 0) {
+            if (match.matches()) {
                 System.out.println("Se encontraron 150 espacios en blanco");
             } else {
                 System.out.println("Se encontraron mas de 150 espacios en blanco");
+                MensajeError(msgE, nLn);
             }
-
-            return resultado;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
             e.printStackTrace();
-            return -1;
+
         }
     }
 
-    private int ValidaSuperfluos(String ln) {
+    private int ValidaSuperfluos(String ln, int nLn) {
         try {
             int resultado;
-            String strInicio = "(^\\s)*";
+
+            String strInicio = "(\\s)?"; //<- deberia de validar si existe 2 o mas espacios en blanco
             Pattern ptr = Pattern.compile(strInicio);
 
             Matcher match = ptr.matcher(ln);
@@ -130,7 +126,7 @@ public class Valida {
             return resultado;
 
         } catch (Exception e) {
-            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
+            System.out.println("Clase Valida-> ValidaSuperfluos()=> " + e.getMessage());
             e.printStackTrace();
             return -1;
         }
@@ -199,22 +195,41 @@ public class Valida {
         }
     }
 
-    private int ValidaComentarios(String ln, int nLn) {
+    private void ValidaComentarios() {
         try {
-            String patron = "\\(\\*([\\.]+)\\*\\)\\;|\\{([\\.]+)\\)\\;";
+            //String patron = "\\(\\*\\s*(\\.?)\\s*\\*\\)\\;|\\{\\s*[\\.]?\\s*\\}\\;";
+            String patron  = "(\\{+)";
+            Pattern ptr = Pattern.compile(patron);
 
-            Pattern ptr = Pattern.compile(patron, Pattern.MULTILINE);
-            Matcher mtch = ptr.matcher(ln);
+            for (String ln : this.cargaInformacion.codigoArchivo) {
+                Matcher mtch = ptr.matcher(ln);
+                System.out.println("Linea -> " + ln);  
+                System.out.println("Encontro -> " + mtch.find());
 
-            int resultado;
+            }
 
-            resultado = (mtch.matches()) ? 1 : 0;
-
-            return resultado;
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaComentarios()=> " + e.getMessage());
             e.printStackTrace();
-            return -1;
+
+        }
+    }
+
+    private void MensajeError(String msgE, int nLn) {
+        try {
+
+            String strL = null;
+            String str = null;
+            strL = this.cargaInformacion.lineasParaArchivoErrores.get(nLn);
+            this.cargaInformacion.lineasParaArchivoErrores.remove(nLn);
+            str = strL + "\n"
+                    + msgE;
+
+            this.cargaInformacion.lineasParaArchivoErrores.add(nLn, str);
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> MensajeError()=> " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
