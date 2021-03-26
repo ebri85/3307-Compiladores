@@ -35,11 +35,12 @@ public class main {
             System.out.println("Compilando...");
             ArchivoInfo infoArchivoPazcal = new ArchivoInfo(archivoPazcal);
             CargaInformacion cargaInformacion = new CargaInformacion(infoArchivoPazcal);
-            Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
+           
 
             Valida valida = new Valida(cargaInformacion);
+             Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
             
-            generador.Compila();           
+           // generador.Compila();           
 
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());

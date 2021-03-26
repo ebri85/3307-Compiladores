@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 public class Valida {
 
     protected CargaInformacion cargaInformacion;
+    protected boolean esProgramaValido; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
+                                        //y solo generar archivo errores y no llamar pascal.
 
     public Valida() {
 
@@ -30,15 +32,16 @@ public class Valida {
 
     protected void RealizaValidaciones() {
         try {
-            int i = 0;
+            int posArrL = 0;
 
             boolean encuentraReservada = false;
             boolean validaProgram = false;
-//            for (String ln : this.cargaInformacion.codigoArchivo) {
-//                System.out.println("Linea -> " + ln);
-//                
-//            }
-            ValidaComentarios();
+            for (String ln : this.cargaInformacion.codigoArchivo) {
+                ValidaTamanoLinea(ln, posArrL);
+                posArrL++;
+            }
+
+            //ValidaComentarios();
         } catch (Exception e) {
             System.out.println("Clase Valida-> RealizaValidaciones()=> " + e.getMessage());
             e.printStackTrace();
@@ -47,17 +50,18 @@ public class Valida {
 
     private void ValidaTamanoLinea(String ln, int nLn) {
         try {
-
+            System.out.println("Validando linea...");
             boolean resultado;
-            String msgE = "ERROR 0001: Linea con mas de los caracteres soportados";
-            System.out.println("Cantidad de Caracteres = " + ln.length());
+            String msgE=null;
             resultado = (ln.length() <= 150);
             if (resultado) {
-                System.out.println("Linea -> " + ln + "\nTamano Correcto Linea");
+                System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [OK]");
             } else {
-                System.out.println("Linea -> " + ln + "\nTamano Incorrecto Linea");
+                System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [Error]");
+                 msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
                 MensajeError(msgE, nLn);
             }
+            System.out.println("Cantidad de Caracteres = " + ln.length());
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaTamanoLinea()=> " + e.getMessage());
@@ -198,12 +202,12 @@ public class Valida {
     private void ValidaComentarios() {
         try {
             //String patron = "\\(\\*\\s*(\\.?)\\s*\\*\\)\\;|\\{\\s*[\\.]?\\s*\\}\\;";
-            String patron  = "(\\{+)";
+            String patron = "(\\{+)";
             Pattern ptr = Pattern.compile(patron);
 
             for (String ln : this.cargaInformacion.codigoArchivo) {
                 Matcher mtch = ptr.matcher(ln);
-                System.out.println("Linea -> " + ln);  
+                System.out.println("Linea -> " + ln);
                 System.out.println("Encontro -> " + mtch.find());
 
             }
@@ -217,7 +221,7 @@ public class Valida {
 
     private void MensajeError(String msgE, int nLn) {
         try {
-
+            System.out.println("Generando ERROR...");
             String strL = null;
             String str = null;
             strL = this.cargaInformacion.lineasParaArchivoErrores.get(nLn);
