@@ -7,8 +7,10 @@ package pazcal;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,13 +51,21 @@ public class CargaInformacion {
     }
 
     private boolean CargaCodigo() {
+        FileInputStream fIs = null;
+        InputStreamReader iSr = null;
         try {
+            String encodingFormat=null;
+            fIs = new FileInputStream(archivo.archivo);
+            iSr = new InputStreamReader(fIs);
 
+            encodingFormat = iSr.getEncoding();
+            
+            //System.out.println("El encode del archivo es-> "+ encodingFormat);
             File file = new File(archivo.archivo);
 
             if (file.exists()) {
 
-                this.codigoArchivo = Files.readAllLines(file.toPath());
+                this.codigoArchivo = Files.readAllLines(file.toPath(),Charset.forName(encodingFormat));
                 //System.out.println(this.codigoArchivo);
                 return true;
 
@@ -82,7 +92,7 @@ public class CargaInformacion {
                 this.reservadasPascal.add(reservada);
             } while (reservada != null);
 
-           // System.out.println(this.reservadasPascal);
+            // System.out.println(this.reservadasPascal);
             return true;
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> CargaReservadas()=> " + e.getMessage());
@@ -129,9 +139,9 @@ public class CargaInformacion {
 
     public void AgregaError(int nl, String msg) {
         try {
-            
+
             this.lineasParaArchivoErrores.add(nl, "\n" + "Error => " + msg);
-            
+
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> AgregaError()=> " + e.getMessage());
             e.printStackTrace();

@@ -13,7 +13,41 @@ import java.util.regex.Pattern;
  *
  * @author Esau Brizuela Ruiz
  */
+
+
 public class Valida {
+    
+    enum PARENTESIS {
+    LLAVE_IZQ {
+        @Override
+        public String toString() {
+            return "{";
+        }
+    ;
+    },
+     LLAVE_LLAVE_DER {
+        @Override
+        public String toString() {
+            return "}";
+        }
+    ;
+    },
+      PARENTESIS_IZQ {
+        @Override
+        public String toString() {
+            return "(*";
+        }
+    ;
+    },
+      PARENTESIS_DER {
+        @Override
+        public String toString() {
+            return "*)";
+        }
+    ;
+};
+
+}
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[5]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -47,7 +81,25 @@ public class Valida {
             }
 
             for (int i = 0; i < this.esProgramaValido.length; i++) {
-                System.out.println(this.esProgramaValido[i] + "\n");
+                switch (i) {
+                    case 0: //Case para tamano de lineas
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("CANTIDAD CARACTERES........ [OK]");
+                        }
+                        break;
+                    case 1:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("PUNTO Y COMA........ [OK]");
+                        }
+                        break;
+                    case 2:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("COMENTARIOS........ [OK]");
+                        }
+                        break;
+
+                }
+
             }
 
             System.out.println("Inicio de Comentarios encontrados = > " + comentarios);
@@ -73,16 +125,14 @@ public class Valida {
 
             boolean resultado;
             String msgE = null;
-            resultado = (ln.length() <= 150);
+            resultado = (ln.length() > 150);
             if (resultado) {
-                System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [OK]");
-            } else {
                 contErrores++;
-                System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [Error]");
+                System.out.println("Linea Numero -> " + nLn + " CANTIDAD CARACTERES........ [Error]");
                 msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
                 MensajeError(msgE, nLn);
             }
-            System.out.println("Cantidad de Caracteres = " + ln.length());
+            //System.out.println("Cantidad de Caracteres = " + ln.length());
             return contErrores;
 
         } catch (Exception e) {
@@ -114,12 +164,10 @@ public class Valida {
             Pattern ptr = Pattern.compile(str);
             Matcher mtch = ptr.matcher(ln);
 
-            if (mtch.find()) {
-                System.out.println("Linea -> " + ln + "\nPunto y Coma.......[OK]");
-            } else {
+            if (!mtch.find()) {
                 contErrores++;
-                System.out.println("Linea -> " + ln + "\nPunto y Coma.......[ERROR]");
-                String msgE = "ERROR 0002: Linea " + (nLn) + " no termina con =>;";
+                System.out.println("Linea Numero -> " + nLn + " -> " + ln + "\nPunto y Coma.......[ERROR]");
+                String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
                 MensajeError(msgE, nLn);
             }
             return contErrores;
@@ -245,22 +293,25 @@ public class Valida {
             String[] arr = ln.split("\\s");
             //String patron = "(\\{)|(\\})|(\\(\\*)|(\\*\\))";
             String[] patron = {"{", "}", "(*", "*)"};
+            
 
             for (int j = 0; j < patron.length; j++) {
                 //Pattern ptr = Pattern.compile(patron[j]);
 
                 for (int i = 0; i < arr.length; i++) {
-                   // Matcher mtch = ptr.matcher(arr[i]);
+                    // Matcher mtch = ptr.matcher(arr[i]);
 
-                   if(arr[i].equalsIgnoreCase(patron[j])){
-                       sumaParentesis++;
-                       System.out.println("Se encontro parentesis-> "+ patron[j] );
-                       
+                    if (arr[i].equalsIgnoreCase(patron[j])) {
+                        sumaParentesis++;
+                        System.out.println("Se encontro parentesis-> " + patron[j]);
+
                     }
 
                 }
             }
-            System.out.println("Cantidad de parentesis encontrados-> "+ sumaParentesis);
+            
+            
+            System.out.println("Cantidad de parentesis encontrados-> " + sumaParentesis);
 
             return resultado;
 
