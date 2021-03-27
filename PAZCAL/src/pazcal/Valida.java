@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 public class Valida {
 
     protected CargaInformacion cargaInformacion;
-    protected boolean esProgramaValido; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
-                                        //y solo generar archivo errores y no llamar pascal.
+    protected boolean[] esProgramaValido = new boolean[5]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
+    //y solo generar archivo errores y no llamar pascal.
 
     public Valida() {
 
@@ -28,71 +28,110 @@ public class Valida {
         this.cargaInformacion = (CargaInformacion) o;
         RealizaValidaciones();
     }
-//Pendiente enviar errores a archivo Errores
 
     protected void RealizaValidaciones() {
         try {
             int posArrL = 0;
+            int comentarios = 0;
+            String hilera = null;
 
             boolean encuentraReservada = false;
             boolean validaProgram = false;
             for (String ln : this.cargaInformacion.codigoArchivo) {
-                ValidaTamanoLinea(ln, posArrL);
+                System.out.println("Validando linea...");
+                this.esProgramaValido[0] = tamanolineasValidas(ln, posArrL);
+                this.esProgramaValido[1] = lineasPuntoComa(ln, posArrL);
+                comentarios = EncuentraComentarios(ln, posArrL);
                 posArrL++;
+
             }
 
-            //ValidaComentarios();
+            for (int i = 0; i < this.esProgramaValido.length; i++) {
+                System.out.println(this.esProgramaValido[i] + "\n");
+            }
+
+            System.out.println("Inicio de Comentarios encontrados = > " + comentarios);
         } catch (Exception e) {
             System.out.println("Clase Valida-> RealizaValidaciones()=> " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void ValidaTamanoLinea(String ln, int nLn) {
+    //#region MetodosValidacionLineas
+    private boolean tamanolineasValidas(String ln, int nLn) {
+
+        int cantidadErrores = 0;
+        boolean resultado = false;
+        cantidadErrores = ValidaTamanoLinea(ln, nLn);
+
+        return !(cantidadErrores > 0);
+    }
+
+    private int ValidaTamanoLinea(String ln, int nLn) {
         try {
-            System.out.println("Validando linea...");
+            int contErrores = 0;
+
             boolean resultado;
-            String msgE=null;
+            String msgE = null;
             resultado = (ln.length() <= 150);
             if (resultado) {
                 System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [OK]");
             } else {
+                contErrores++;
                 System.out.println("Linea -> " + ln + "\nCANTIDAD CARACTERES........ [Error]");
-                 msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
+                msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
                 MensajeError(msgE, nLn);
             }
             System.out.println("Cantidad de Caracteres = " + ln.length());
+            return contErrores;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaTamanoLinea()=> " + e.getMessage());
             e.printStackTrace();
+            return 1;
 
         }
     }
 
-    private void ValidaPuntoyComa(String ln, int nLn) {
+    //#endregion MetodosValidacionLineas
+    //#region MetodosValidacionesPuntoComa
+    private boolean lineasPuntoComa(String ln, int nLn) {
+
+        int cantidadErrores = 0;
+        boolean resultado = false;
+        cantidadErrores = ValidaPuntoyComa(ln, nLn);
+
+        return !(cantidadErrores > 0);
+    }
+
+    private int ValidaPuntoyComa(String ln, int nLn) {
         try {
             int resultado;
-            String msgE = "ERROR 0002: Instruccion no termina con =>;";
-            String str = ".*\\;$";
+            int contErrores = 0;
+
+            String str = "\\;$";
 
             Pattern ptr = Pattern.compile(str);
             Matcher mtch = ptr.matcher(ln);
 
-            if (mtch.matches()) {
-                System.out.println("Linea -> " + ln + "\nContiene punto y coma");
+            if (mtch.find()) {
+                System.out.println("Linea -> " + ln + "\nPunto y Coma.......[OK]");
             } else {
-                System.out.println("Linea -> " + ln + "\nNo contiene punto y coma");
+                contErrores++;
+                System.out.println("Linea -> " + ln + "\nPunto y Coma.......[ERROR]");
+                String msgE = "ERROR 0002: Linea " + (nLn) + " no termina con =>;";
                 MensajeError(msgE, nLn);
             }
+            return contErrores;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaPuntoyComa()=> " + e.getMessage());
             e.printStackTrace();
-
+            return 1;
         }
     }
 
+    //#region MetodosValidacionesPuntoComa
     private void ValidaBlancos(String ln, int nLn) {
         try {
 
@@ -199,23 +238,66 @@ public class Valida {
         }
     }
 
-    private void ValidaComentarios() {
+    private int EncuentraComentarios(String ln, int nLn) {
         try {
+            int resultado = 0;
+            int sumaParentesis = 0;
+            String[] arr = ln.split("\\s");
+            //String patron = "(\\{)|(\\})|(\\(\\*)|(\\*\\))";
+            String[] patron = {"{", "}", "(*", "*)"};
+
+            for (int j = 0; j < patron.length; j++) {
+                //Pattern ptr = Pattern.compile(patron[j]);
+
+                for (int i = 0; i < arr.length; i++) {
+                   // Matcher mtch = ptr.matcher(arr[i]);
+
+                   if(arr[i].equalsIgnoreCase(patron[j])){
+                       sumaParentesis++;
+                       System.out.println("Se encontro parentesis-> "+ patron[j] );
+                       
+                    }
+
+                }
+            }
+            System.out.println("Cantidad de parentesis encontrados-> "+ sumaParentesis);
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> ValidaProgram()=> " + e.getMessage());
+            e.printStackTrace();
+            return 1;
+        }
+    }
+
+    private int ValidaComentarios() {
+        try {
+            int resultado;
+            int encontro = 0;
+            int contErrores = 0;
             //String patron = "\\(\\*\\s*(\\.?)\\s*\\*\\)\\;|\\{\\s*[\\.]?\\s*\\}\\;";
-            String patron = "(\\{+)";
+            String patron = "(\\{+)|(\\(\\*+)|(\\}+)|(\\*\\)+)";
+
             Pattern ptr = Pattern.compile(patron);
 
             for (String ln : this.cargaInformacion.codigoArchivo) {
                 Matcher mtch = ptr.matcher(ln);
                 System.out.println("Linea -> " + ln);
-                System.out.println("Encontro -> " + mtch.find());
+                if (mtch.find() == true) {
+                    System.out.println("Encontro -> " + mtch.toMatchResult());
+
+                    encontro++;
+                }
 
             }
+
+            return encontro;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaComentarios()=> " + e.getMessage());
             e.printStackTrace();
-
+            return 1;
         }
     }
 
