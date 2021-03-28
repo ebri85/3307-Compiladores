@@ -54,6 +54,7 @@ public class Valida {
     private HashMap<Integer, String> posicionComentarios = new HashMap<>();
     private ArrayList<Integer> posicionTamanoLinea = new ArrayList<>();
     private ArrayList<Integer> posicionPuntoComa = new ArrayList<>();
+    private ArrayList<Integer> posicionProgram = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[5]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -82,6 +83,7 @@ public class Valida {
                 this.esProgramaValido[0] = tamanolineasValidas();
                 this.esProgramaValido[1] = lineasPuntoComa();
                 this.esProgramaValido[2] = EncuentraComentarios();
+                this.esProgramaValido[3] = ValidaProgram();
                 evalua = false;
             }
 
@@ -106,6 +108,13 @@ public class Valida {
                             System.out.println("COMENTARIOS........ [OK]");
                         } else {
                             System.out.println("COMENTARIOS........ [ERROR]");
+                        }
+                        break;
+                    case 3:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("FORMATO PROGRAM........ [OK]");
+                        } else {
+                            System.out.println("FORMATO PROGRAM........ [ERROR]");
                         }
                         break;
 
@@ -134,7 +143,7 @@ public class Valida {
 
     private int ValidaTamanoLinea() {
         try {
-      
+//msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
             this.cargaInformacion.codigoArchivo.forEach((e) -> {
                 int nLn = 0;
                 boolean resultado;
@@ -143,16 +152,12 @@ public class Valida {
                 if (resultado) {
 
                     this.posicionTamanoLinea.add(nLn); //almacena el numero de linea donde se encuentro el error
-                    //System.out.println("Linea Numero -> " + nLn + " CANTIDAD CARACTERES........ [Error]");
-                    //msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
-                    //MensajeError(msgE, nLn);
 
                 }
             });
 
             Collections.sort(this.posicionTamanoLinea);
 
-            //System.out.println("Cantidad de Caracteres = " + ln.length());
             return this.posicionTamanoLinea.size();
 
         } catch (Exception e) {
@@ -176,6 +181,7 @@ public class Valida {
 
     private int ValidaPuntoyComa() {
         try {
+            //String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
             String str = "\\.*\\;";
 
             Pattern ptr = Pattern.compile(str);
@@ -189,9 +195,7 @@ public class Valida {
                 if (!encontro) {
 
                     this.posicionPuntoComa.add(nLn);
-                    //System.out.println("Linea Numero -> " + nLn + " -> " + ln + "\nPunto y Coma.......[ERROR]");
-                    //String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
-                    //MensajeError(msgE, nLn);
+
                 }
 
             });
@@ -284,26 +288,39 @@ public class Valida {
         }
     }
 
-    private boolean ValidaProgram(String ln) {
+    private boolean ValidaProgram() {
         try {
-            boolean resultado = false;
+
             boolean continua = true;
             while (continua) {
-                String patron = "[PROGRAM]\\s+[a-z]{15}\\s+\\(\\);|[PROGRAM]\\s+[a-z]{15}\\s+\\(\\s*[input\\s*,\\s*output]\\s*\\);|[PROGRAM]\\s+[a-z]{15}\\s+\\(\\s*[input]\\s*\\);|[PROGRAM]\\s+[a-z]{15}\\s+\\(\\s*[\\s*output]\\s*\\);"; //PROGRAM NombreDePrograma ( INPUT, OUTPUT );
-
+                //String patron =   "(([PROGRAM])(\\s+)([a-z]{14})(\\s*\\;{1}))|[PROGRAM]\\s+[a-z]{14}\\s+\\({1}\\s*[input]\\s*\\,{1}\\s*[output]\\s*\\){1}s*\\;{1}|[PROGRAM]\\s+[a-z]{14}\\s+\\(\\s*[input]\\s*\\)s*\\;{1}|[PROGRAM]\\s+[a-z]{14}\\s+\\(\\s*[\\s*output]\\s*\\)s*\\;{1}"; //PROGRAM NombreDePrograma ( INPUT, OUTPUT );
+                 //String patron = "(program)\\s+([a-z]{1,15})\\s+\\(\\s+(input)\\s+\\,{1}\\s+(output)\\s+\\)s+\\;{1}";
+                 String patron = "(program)\\s+[a-z]{1,15}\\s+\\({1}\\s+(input)\\s+\\,{1}\\s+(output)\\s+\\){1}\\s+\\;{1}|(program)\\s+[a-z]{1,15}\\s+\\;{1}|(program)\\s+[a-z]{1,15}\\s+\\({1}\\s+(input)\\s+\\){1}\\s+\\;{1}|(program)\\s+[a-z]{1,15}\\s+\\({1}\\s+(output)\\s+\\){1}\\s+\\;{1}";
                 Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
-                Matcher mtch = ptr.matcher(ln);
 
-                resultado = mtch.matches();
+                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
+                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                    String[] strs = e.split("\\s");
+                    for (int i = 0; i < strs.length; i++) {
+                        if (strs[i].equalsIgnoreCase("PROGRAM")) {
+                            boolean resultado = false;
+                            Matcher mtch = ptr.matcher(e);
+                            resultado = mtch.find();
+                            
+                            if (!e.isEmpty()) {
+                                if (resultado == false) {
+                                    this.posicionProgram.add(posicion);
+                                }
+                            }
+                        }
+                    }
+
+                });
+                Collections.sort(posicionProgram);
                 continua = false;
             }
-            if (resultado) {
-                System.out.println("Formato de Instruccion Program correcto");
-            } else {
-                System.out.println("Formato de Instruccion Program incorrecto");
-            }
 
-            return resultado;
+            return this.posicionProgram.isEmpty();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaProgram()=> " + e.getMessage());
@@ -438,6 +455,10 @@ public class Valida {
 
             this.posicionComentarios.keySet().forEach((e) -> {
                 System.out.println("Posicion-> " + e + " Tipo LLave-> " + this.posicionComentarios.get(e));
+            });
+
+            this.posicionProgram.forEach((e) -> {
+                System.out.println("Linea Formato Program Erroneo-> " + e);
             });
             imprimir = false;
         }

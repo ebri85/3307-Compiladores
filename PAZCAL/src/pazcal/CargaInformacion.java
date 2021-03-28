@@ -114,15 +114,17 @@ public class CargaInformacion {
             }
 
             for (String ln : this.codigoArchivo) {
-                j = this.codigoArchivo.lastIndexOf(i);
+                j = this.codigoArchivo.lastIndexOf(i)+1;
 
-                if (ln.isEmpty()) {
-                    j = i;
-
-                } else {
-                    i++;
-                    j = i;
-                }
+                i++;
+                j=i;
+//                if (ln.isEmpty()) {
+//                    j = i;
+//
+//                } else {
+//                    i++;
+//                    j = i;
+//                }
                 str1 = String.format("%05d", j);
                 str2 = str1 + " " + ln;
                 this.lineasParaArchivoErrores.add(str2);
