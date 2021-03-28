@@ -134,25 +134,26 @@ public class Valida {
 
     private int ValidaTamanoLinea() {
         try {
-            int contErrores = 0;
-            int nLn = 0;
-            boolean resultado;
-            String msgE = null;
-            for (String ln : this.cargaInformacion.codigoArchivo) {
-                nLn = this.cargaInformacion.codigoArchivo.indexOf(ln) + 1;
-                resultado = (ln.length() > 150);
+      
+            this.cargaInformacion.codigoArchivo.forEach((e) -> {
+                int nLn = 0;
+                boolean resultado;
+                nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                resultado = (e.length() > 150);
                 if (resultado) {
-                    contErrores++;
+
                     this.posicionTamanoLinea.add(nLn); //almacena el numero de linea donde se encuentro el error
                     //System.out.println("Linea Numero -> " + nLn + " CANTIDAD CARACTERES........ [Error]");
                     //msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
                     //MensajeError(msgE, nLn);
 
                 }
-            }
+            });
+
+            Collections.sort(this.posicionTamanoLinea);
 
             //System.out.println("Cantidad de Caracteres = " + ln.length());
-            return contErrores;
+            return this.posicionTamanoLinea.size();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaTamanoLinea()=> " + e.getMessage());
@@ -175,30 +176,31 @@ public class Valida {
 
     private int ValidaPuntoyComa() {
         try {
-            int resultado;
-            int contErrores = 0;
-
-            int nLn = 0;
-            String str = "\\;$";
+            String str = "\\.*\\;";
 
             Pattern ptr = Pattern.compile(str);
-            for (String ln : this.cargaInformacion.codigoArchivo) {
-                nLn = this.cargaInformacion.codigoArchivo.indexOf(ln) + 1;
-                Matcher mtch = ptr.matcher(ln);
 
-                if (!mtch.find()) {
-                    contErrores++;
+            this.cargaInformacion.codigoArchivo.forEach((e) -> {
+                int nLn = 0;
+                nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                boolean encontro = false;
+                Matcher mtch = ptr.matcher(e);
+                encontro = mtch.find();
+                if (!encontro) {
+
                     this.posicionPuntoComa.add(nLn);
                     //System.out.println("Linea Numero -> " + nLn + " -> " + ln + "\nPunto y Coma.......[ERROR]");
                     //String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
                     //MensajeError(msgE, nLn);
                 }
-            }
-            return contErrores;
+
+            });
+            Collections.sort(this.posicionPuntoComa);
+            return this.posicionPuntoComa.size();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaPuntoyComa()=> " + e.getMessage());
-            e.printStackTrace();
+            e.getCause();
             return 1;
         }
     }
@@ -403,39 +405,9 @@ public class Valida {
         }
     }
 
-    private int ValidaComentarios() {
-        try {
-            int resultado;
-            int encontro = 0;
-            int contErrores = 0;
-            //String patron = "\\(\\*\\s*(\\.?)\\s*\\*\\)\\;|\\{\\s*[\\.]?\\s*\\}\\;";
-            String patron = "(\\{+)|(\\(\\*+)|(\\}+)|(\\*\\)+)";
-
-            Pattern ptr = Pattern.compile(patron);
-
-            for (String ln : this.cargaInformacion.codigoArchivo) {
-                Matcher mtch = ptr.matcher(ln);
-                System.out.println("Linea -> " + ln);
-                if (mtch.find() == true) {
-                    System.out.println("Encontro -> " + mtch.toMatchResult());
-
-                    encontro++;
-                }
-
-            }
-
-            return encontro;
-
-        } catch (Exception e) {
-            System.out.println("Clase Valida-> ValidaComentarios()=> " + e.getMessage());
-            e.printStackTrace();
-            return 1;
-        }
-    }
-
     private void MensajeError(String msgE, int nLn) {
         try {
-            System.out.println("Generando ERROR...");
+            System.out.println("Generando ERRORES...");
             String strL = null;
             String str = null;
             strL = this.cargaInformacion.lineasParaArchivoErrores.get(nLn);
@@ -452,19 +424,24 @@ public class Valida {
     }
 
     private void ImprimeArreglos() {
-        this.posicionPuntoComa.forEach((e) -> {
-            System.out.println("Lineas que no tienen Punto y Coma-> " + e);
-        });
+        boolean imprimir = true;
 
-        this.posicionTamanoLinea.forEach((e) -> {
-            System.out.println("Linea que excede el tamano-> " + e);
-        });
+        while (imprimir == true) {
+            this.posicionPuntoComa.forEach((e) -> {
+                System.out.println("Lineas que no tienen Punto y Coma-> " + e);
+            });
 
-        for (Integer k : this.posicionComentarios.keySet()) {
+            this.posicionTamanoLinea.forEach((e) -> {
+                System.out.println("Linea que excede el tamano-> " + e);
+            });
+            int val = 0;
 
-            System.out.println("Key ->" + k + " Valor->" + this.posicionComentarios.get(k));
-
+            this.posicionComentarios.keySet().forEach((e) -> {
+                System.out.println("Posicion-> " + e + " Tipo LLave-> " + this.posicionComentarios.get(e));
+            });
+            imprimir = false;
         }
+
     }
 
 }
