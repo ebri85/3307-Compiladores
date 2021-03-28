@@ -51,31 +51,31 @@ public class CargaInformacion {
     }
 
     private boolean CargaCodigo() {
+        boolean resultado = false;
         FileInputStream fIs = null;
         InputStreamReader iSr = null;
         try {
-            String encodingFormat=null;
+            String encodingFormat = null;
             fIs = new FileInputStream(archivo.archivo);
             iSr = new InputStreamReader(fIs);
 
-            encodingFormat = iSr.getEncoding();
-            
             //System.out.println("El encode del archivo es-> "+ encodingFormat);
             File file = new File(archivo.archivo);
-
+            System.out.println(file.isFile());
             if (file.exists()) {
-
-                this.codigoArchivo = Files.readAllLines(file.toPath(),Charset.forName(encodingFormat));
+                encodingFormat = iSr.getEncoding();
+                this.codigoArchivo = Files.readAllLines(file.toPath(), Charset.forName(encodingFormat));
                 //System.out.println(this.codigoArchivo);
-                return true;
+                resultado = true;
 
             } else {
                 throw new Exception("Archivo No existe ->" + archivo.archivo);
             }
+            return resultado;
 
         } catch (Exception e) {
             System.out.println("Clase CargaInformacion-> CargaCodigo()=> " + e.getMessage());
-            e.printStackTrace();
+            e.getCause();
             return false;
         }
     }

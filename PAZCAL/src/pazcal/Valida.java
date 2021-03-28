@@ -6,6 +6,9 @@
 package pazcal;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,41 +16,44 @@ import java.util.regex.Pattern;
  *
  * @author Esau Brizuela Ruiz
  */
-
-
 public class Valida {
-    
-    enum PARENTESIS {
-    LLAVE_IZQ {
-        @Override
-        public String toString() {
-            return "{";
-        }
-    ;
-    },
-     LLAVE_LLAVE_DER {
-        @Override
-        public String toString() {
-            return "}";
-        }
-    ;
-    },
-      PARENTESIS_IZQ {
-        @Override
-        public String toString() {
-            return "(*";
-        }
-    ;
-    },
-      PARENTESIS_DER {
-        @Override
-        public String toString() {
-            return "*)";
-        }
-    ;
-};
 
-}
+    enum PARENTESIS {
+        LLAVE_IZQ {
+            @Override
+            public String toString() {
+                return "{";
+            }
+        ;
+        },
+        LLAVE_DER {
+            @Override
+            public String toString() {
+                return "}";
+            }
+        ;
+        },
+      PARENTESIS_IZQ {
+            @Override
+            public String toString() {
+                return "(*";
+            }
+        ;
+        },
+      PARENTESIS_DER {
+            @Override
+            public String toString() {
+                return "*)";
+            }
+        ;
+    };
+
+    }
+
+
+    private HashMap<Integer, String> posicionComentarios = new HashMap<>();
+    private ArrayList<Integer> posicionTamanoLinea = new ArrayList<>();
+    private ArrayList<Integer> posicionPuntoComa = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[5]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -61,23 +67,22 @@ public class Valida {
         System.out.println("Validando...");
         this.cargaInformacion = (CargaInformacion) o;
         RealizaValidaciones();
+        ImprimeArreglos();
     }
 
     protected void RealizaValidaciones() {
         try {
-            int posArrL = 0;
+
             int comentarios = 0;
-            String hilera = null;
 
-            boolean encuentraReservada = false;
-            boolean validaProgram = false;
-            for (String ln : this.cargaInformacion.codigoArchivo) {
-                System.out.println("Validando linea...");
-                this.esProgramaValido[0] = tamanolineasValidas(ln, posArrL);
-                this.esProgramaValido[1] = lineasPuntoComa(ln, posArrL);
-                comentarios = EncuentraComentarios(ln, posArrL);
-                posArrL++;
+            boolean evalua = true;
 
+            //System.out.println("Validando linea...");
+            while (evalua) {
+                this.esProgramaValido[0] = tamanolineasValidas();
+                this.esProgramaValido[1] = lineasPuntoComa();
+                this.esProgramaValido[2] = EncuentraComentarios();
+                evalua = false;
             }
 
             for (int i = 0; i < this.esProgramaValido.length; i++) {
@@ -85,24 +90,32 @@ public class Valida {
                     case 0: //Case para tamano de lineas
                         if (this.esProgramaValido[i]) {
                             System.out.println("CANTIDAD CARACTERES........ [OK]");
+                        } else {
+                            System.out.println("CANTIDAD CARACTERES........ [ERROR]");
                         }
                         break;
                     case 1:
                         if (this.esProgramaValido[i]) {
                             System.out.println("PUNTO Y COMA........ [OK]");
+                        } else {
+                            System.out.println("PUNTO Y COMA........ [ERROR]");
                         }
                         break;
                     case 2:
                         if (this.esProgramaValido[i]) {
                             System.out.println("COMENTARIOS........ [OK]");
+                        } else {
+                            System.out.println("COMENTARIOS........ [ERROR]");
                         }
+                        break;
+
+                    default:
                         break;
 
                 }
 
             }
 
-            System.out.println("Inicio de Comentarios encontrados = > " + comentarios);
         } catch (Exception e) {
             System.out.println("Clase Valida-> RealizaValidaciones()=> " + e.getMessage());
             e.printStackTrace();
@@ -110,28 +123,34 @@ public class Valida {
     }
 
     //#region MetodosValidacionLineas
-    private boolean tamanolineasValidas(String ln, int nLn) {
+    private boolean tamanolineasValidas() {
 
         int cantidadErrores = 0;
         boolean resultado = false;
-        cantidadErrores = ValidaTamanoLinea(ln, nLn);
+        cantidadErrores = ValidaTamanoLinea();
 
         return !(cantidadErrores > 0);
     }
 
-    private int ValidaTamanoLinea(String ln, int nLn) {
+    private int ValidaTamanoLinea() {
         try {
             int contErrores = 0;
-
+            int nLn = 0;
             boolean resultado;
             String msgE = null;
-            resultado = (ln.length() > 150);
-            if (resultado) {
-                contErrores++;
-                System.out.println("Linea Numero -> " + nLn + " CANTIDAD CARACTERES........ [Error]");
-                msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
-                MensajeError(msgE, nLn);
+            for (String ln : this.cargaInformacion.codigoArchivo) {
+                nLn = this.cargaInformacion.codigoArchivo.indexOf(ln) + 1;
+                resultado = (ln.length() > 150);
+                if (resultado) {
+                    contErrores++;
+                    this.posicionTamanoLinea.add(nLn); //almacena el numero de linea donde se encuentro el error
+                    //System.out.println("Linea Numero -> " + nLn + " CANTIDAD CARACTERES........ [Error]");
+                    //msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ->" + ln.length();
+                    //MensajeError(msgE, nLn);
+
+                }
             }
+
             //System.out.println("Cantidad de Caracteres = " + ln.length());
             return contErrores;
 
@@ -145,30 +164,35 @@ public class Valida {
 
     //#endregion MetodosValidacionLineas
     //#region MetodosValidacionesPuntoComa
-    private boolean lineasPuntoComa(String ln, int nLn) {
+    private boolean lineasPuntoComa() {
 
         int cantidadErrores = 0;
         boolean resultado = false;
-        cantidadErrores = ValidaPuntoyComa(ln, nLn);
+        cantidadErrores = ValidaPuntoyComa();
 
         return !(cantidadErrores > 0);
     }
 
-    private int ValidaPuntoyComa(String ln, int nLn) {
+    private int ValidaPuntoyComa() {
         try {
             int resultado;
             int contErrores = 0;
 
+            int nLn = 0;
             String str = "\\;$";
 
             Pattern ptr = Pattern.compile(str);
-            Matcher mtch = ptr.matcher(ln);
+            for (String ln : this.cargaInformacion.codigoArchivo) {
+                nLn = this.cargaInformacion.codigoArchivo.indexOf(ln) + 1;
+                Matcher mtch = ptr.matcher(ln);
 
-            if (!mtch.find()) {
-                contErrores++;
-                System.out.println("Linea Numero -> " + nLn + " -> " + ln + "\nPunto y Coma.......[ERROR]");
-                String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
-                MensajeError(msgE, nLn);
+                if (!mtch.find()) {
+                    contErrores++;
+                    this.posicionPuntoComa.add(nLn);
+                    //System.out.println("Linea Numero -> " + nLn + " -> " + ln + "\nPunto y Coma.......[ERROR]");
+                    //String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
+                    //MensajeError(msgE, nLn);
+                }
             }
             return contErrores;
 
@@ -178,8 +202,8 @@ public class Valida {
             return 1;
         }
     }
-
     //#region MetodosValidacionesPuntoComa
+
     private void ValidaBlancos(String ln, int nLn) {
         try {
 
@@ -286,39 +310,96 @@ public class Valida {
         }
     }
 
-    private int EncuentraComentarios(String ln, int nLn) {
+    private boolean EncuentraComentarios() {
         try {
-            int resultado = 0;
-            int sumaParentesis = 0;
-            String[] arr = ln.split("\\s");
-            //String patron = "(\\{)|(\\})|(\\(\\*)|(\\*\\))";
-            String[] patron = {"{", "}", "(*", "*)"};
-            
 
-            for (int j = 0; j < patron.length; j++) {
-                //Pattern ptr = Pattern.compile(patron[j]);
+            boolean resultado = false;
 
-                for (int i = 0; i < arr.length; i++) {
-                    // Matcher mtch = ptr.matcher(arr[i]);
+            String llaveDer = null, llaveIzq = null, parIzq = null, parDer = null;
+            int nLn = 0;
+            int llaveD = 0;
+            int llaveI = 0;
+            int parI = 0;
+            int parD = 0;
+            int posicionL = 0;
+            int posicionP = 0;
+            String hileraL = "";
+            String hileraP = "";
+            String msgE = "\t\tERROR 0003: =>";
 
-                    if (arr[i].equalsIgnoreCase(patron[j])) {
-                        sumaParentesis++;
-                        System.out.println("Se encontro parentesis-> " + patron[j]);
+            PARENTESIS[] valores = PARENTESIS.values();
+            for (String ln : this.cargaInformacion.codigoArchivo) {
+                String[] arr = ln.split("\\s");
+                nLn = this.cargaInformacion.codigoArchivo.indexOf(ln) + 1;
+
+                for (PARENTESIS p : valores) {
+                    for (int i = 0; i < arr.length; i++) {
+
+                        if (arr[i].equalsIgnoreCase(p.toString())) {
+                            //almacena donde se encuentran los parentesis o llaves 
+                            this.posicionComentarios.put(nLn, p.name());
+
+                            switch (PARENTESIS.valueOf(p.name())) {
+
+                                case LLAVE_IZQ:
+                                    llaveI++;
+                                    llaveIzq = arr[i];
+                                    posicionL = nLn;
+                                    hileraL += "\t" + posicionL + " " + ln + "\n";
+
+                                    break;
+                                case LLAVE_DER:
+                                    llaveD++;
+                                    llaveDer = arr[i];
+                                    posicionL = nLn;
+                                    hileraL += "\t" + posicionL + " " + ln + "\n";
+
+                                    break;
+                                case PARENTESIS_IZQ:
+                                    parI++;
+                                    parIzq = arr[i];
+                                    posicionP = nLn;
+                                    hileraP += "\t" + posicionP + " " + ln + "\n";
+
+                                    break;
+
+                                case PARENTESIS_DER:
+                                    parD++;
+                                    parDer = arr[i];
+                                    posicionP = nLn;
+                                    hileraP += "\t" + posicionP + " " + ln + "\n";
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
 
                     }
 
                 }
             }
-            
-            
-            System.out.println("Cantidad de parentesis encontrados-> " + sumaParentesis);
+
+            int sumaLLaves = 0, sumaParentesis = 0;
+            sumaLLaves = llaveI + llaveD;
+            sumaParentesis = parD + parI;
+            boolean esParLlave = (sumaLLaves % 2 == 0);
+            boolean esParParen = (sumaParentesis % 2 == 0);
+
+            if (!esParLlave || !esParParen) {
+
+                // System.out.println(hileraL);
+                //  MensajeError(hileraL, posicionL);
+                resultado = false;
+            }
 
             return resultado;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaProgram()=> " + e.getMessage());
             e.printStackTrace();
-            return 1;
+            return false;
         }
     }
 
@@ -367,6 +448,22 @@ public class Valida {
         } catch (Exception e) {
             System.out.println("Clase Valida-> MensajeError()=> " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void ImprimeArreglos() {
+        this.posicionPuntoComa.forEach((e) -> {
+            System.out.println("Lineas que no tienen Punto y Coma-> " + e);
+        });
+
+        this.posicionTamanoLinea.forEach((e) -> {
+            System.out.println("Linea que excede el tamano-> " + e);
+        });
+
+        for (Integer k : this.posicionComentarios.keySet()) {
+
+            System.out.println("Key ->" + k + " Valor->" + this.posicionComentarios.get(k));
+
         }
     }
 
