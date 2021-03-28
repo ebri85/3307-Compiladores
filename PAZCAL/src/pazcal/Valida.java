@@ -57,6 +57,7 @@ public class Valida {
     private ArrayList<Integer> posicionProgram = new ArrayList<>();
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
+    private ArrayList<Integer> posicionReservadas = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[10]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -87,6 +88,7 @@ public class Valida {
                 this.esProgramaValido[2] = EncuentraComentarios();
                 this.esProgramaValido[3] = ValidaProgram();
                 this.esProgramaValido[4] = ValidaVar();
+                this.esProgramaValido[5] = EncuentraReservadas();
 
                 evalua = false;
             }
@@ -126,6 +128,13 @@ public class Valida {
                             System.out.println("FORMATO VAR........ [OK]");
                         } else {
                             System.out.println("FORMATO VAR........ [ERROR]");
+                        }
+                        break;
+                    case 5:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("ENCONTRO RESERVADAS........ [OK]");
+                        } else {
+                            System.out.println("ENCONTRO RESERVADAS........ [ERROR]");
                         }
                         break;
 
@@ -263,30 +272,43 @@ public class Valida {
 //            return -1;
 //        }
 //    }
-    protected boolean EncuentraReservadas(String ln) {
+    protected boolean EncuentraReservadas() {
         try {
             boolean resultado = false;
             int cont = 0;
             boolean continua = true;
+            boolean esReservadaPazcal = false;
 
             while (continua) {
-                String[] arr = ln.split("\\s");
+
                 for (String reservada : this.cargaInformacion.reservadasPascal) {
+                    if (reservada != null) {
+                        for (String e : this.cargaInformacion.codigoArchivo) {
+                            boolean esReservada = false;
+                            String[] divide = e.split("\\s");
+                            for (int i = 0; i < divide.length; i++) {
+                                Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
+                                Matcher mt = ptr.matcher(divide[i]);
 
-                    for (int i = 0; i < arr.length; i++) {
-                        Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
-                        Matcher mt = ptr.matcher(arr[i]);
-                        if (mt.find()) {
-                            cont++;
+                                esReservada = mt.matches();
+                                esReservadaPazcal = reservada.toUpperCase().matches("(PROGRAM|END|VAR|BEGIN|READLN|WRITELN|REPEAT)");
+                                if (!esReservadaPazcal) {
+                                    if (esReservada) {
+                                        this.posicionReservadas.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                                    }
+                                }
+
+                            }
+
                         }
-
                     }
 
                 }
+                Collections.sort(posicionReservadas);
                 continua = false;
             }
 
-            resultado = (cont > 0);
+            resultado = this.posicionReservadas.isEmpty();
 
             //System.out.println("Se encontraron " + cont + " reservadas");
             return resultado;
@@ -386,12 +408,12 @@ public class Valida {
                 String patronVariables = "(\\s+(\\w[^\\.\\%]){1,15}:\\s+(INTEGER|CHAR|REAL);)";
                 Pattern ptrVariables = Pattern.compile(patronVariables, Pattern.CASE_INSENSITIVE);
                 Pattern ptrV = Pattern.compile(patronV, Pattern.CASE_INSENSITIVE);
-                
+
                 boolean esVariable = false;
-                
+
                 Matcher mtchV = ptrV.matcher(e);
                 Matcher mtchVariables = ptrVariables.matcher(e);
-                
+
                 res = mtchV.matches();
                 esVariable = mtchVariables.find();
 
@@ -403,9 +425,9 @@ public class Valida {
                 }
                 if (!e.isEmpty()) {
                     if (esVariable) {
-                       // System.out.println(esVariable + "  " + e);
+                        // System.out.println(esVariable + "  " + e);
                         this.posicionVar.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
-                    } 
+                    }
                 }
             }
 
@@ -557,6 +579,10 @@ public class Valida {
 
             this.posicionDefVar.forEach((e) -> {
                 System.out.println("Linea Definicion Variable Error-> " + e);
+            });
+
+            this.posicionReservadas.forEach((e) -> {
+                System.out.println("Resevada Encontrada en Linea-> " + e + " palabra-> " + this.cargaInformacion.reservadasPascal.get(e));
             });
             imprimir = false;
         }
