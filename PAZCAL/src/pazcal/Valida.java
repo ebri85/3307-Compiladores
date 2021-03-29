@@ -58,6 +58,9 @@ public class Valida {
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
+    private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
+    private ArrayList<Integer> posicionReadLn = new ArrayList<>();
+    private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[10]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -89,6 +92,9 @@ public class Valida {
                 this.esProgramaValido[3] = ValidaProgram();
                 this.esProgramaValido[4] = ValidaVar();
                 this.esProgramaValido[5] = EncuentraReservadas();
+                this.esProgramaValido[6] = ValidaBeginEnd();
+                this.esProgramaValido[7] = ValidarReadLn();
+                this.esProgramaValido[8] = ValidarWriteLn();
 
                 evalua = false;
             }
@@ -100,6 +106,13 @@ public class Valida {
                             System.out.println("CANTIDAD CARACTERES........ [OK]");
                         } else {
                             System.out.println("CANTIDAD CARACTERES........ [ERROR]");
+
+                            this.posicionTamanoLinea.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0001: Linea con mas de los caracteres soportados ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         }
                         break;
                     case 1:
@@ -107,6 +120,12 @@ public class Valida {
                             System.out.println("PUNTO Y COMA........ [OK]");
                         } else {
                             System.out.println("PUNTO Y COMA........ [ERROR]");
+//                            this.posicionPuntoComa.forEach((e) -> {
+//
+//                                String msgE = "\t\tERROR 0002: No se encontro Punto y Coma (;)] ";
+//
+//                                MensajeError(msgE, (e - 1));
+//                            });
                         }
                         break;
                     case 2:
@@ -114,13 +133,26 @@ public class Valida {
                             System.out.println("COMENTARIOS........ [OK]");
                         } else {
                             System.out.println("COMENTARIOS........ [ERROR]");
+
+                            this.posicionComentarios.keySet().forEach((e) -> {
+                                String msgE = "\t\tERROR 0004: Validar el formato del comentario  ";
+                                MensajeError(msgE, (e - 1));
+                            });
+
                         }
                         break;
+
                     case 3:
                         if (this.esProgramaValido[i]) {
                             System.out.println("FORMATO PROGRAM........ [OK]");
                         } else {
                             System.out.println("FORMATO PROGRAM........ [ERROR]");
+                            this.posicionProgram.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0005: Error en la estructura del la instruccion PROGRAM ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         }
                         break;
                     case 4:
@@ -128,16 +160,68 @@ public class Valida {
                             System.out.println("FORMATO VAR........ [OK]");
                         } else {
                             System.out.println("FORMATO VAR........ [ERROR]");
+                            this.posicionDefVar.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0006: Error en la estructura del la instruccion VAR ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         }
                         break;
                     case 5:
                         if (this.esProgramaValido[i]) {
                             System.out.println("ENCONTRO RESERVADAS........ [OK]");
+
+                            this.posicionReservadas.forEach((e) -> {
+
+                                String msgE = "\t\tMENSAJE se encontro Reservada que no pertenece a PAZCAL ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         } else {
-                            System.out.println("ENCONTRO RESERVADAS........ [ERROR]");
+                            System.out.println("ENCONTRO RESERVADAS........ [NO]");
+                        }
+                        break;
+                    case 6:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("BEGIN se encuentra antes de END........ [OK]");
+                        } else {
+                            System.out.println("BEGIN se encuentra antes de END........ [NO]");
+                            this.posicionBeginEnd.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0008: Error en la estructura del la instruccion BEGIN/END ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         }
                         break;
 
+                    case 7:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("FORMATO READLN........ [OK]");
+                        } else {
+                            System.out.println("FORMATO READLN........ [ERROR]");
+                            this.posicionReadLn.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0009: Error en la estructura del la instruccion READLN ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
+                        }
+                        break;
+                    case 8:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("FORMATO WRITELN........ [OK]");
+                        } else {
+                            System.out.println("FORMATO WRITELN........ [ERROR]");
+                            this.posicionWriteLn.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0010: Error en la estructura del la instruccion WRITELN ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
+                        }
+                        break;
                     default:
                         break;
 
@@ -150,8 +234,8 @@ public class Valida {
             e.printStackTrace();
         }
     }
-
     //#region MetodosValidacionLineas
+
     private boolean tamanolineasValidas() {
 
         int cantidadErrores = 0;
@@ -202,23 +286,27 @@ public class Valida {
     private int ValidaPuntoyComa() {
         try {
             //String msgE = "\t\tERROR 0002: Linea " + (nLn) + " no termina con =>;";
-            String str = "\\.*\\;";
+            String str = ";";
 
-            Pattern ptr = Pattern.compile(str);
+            //Pattern ptr = Pattern.compile(str);
+            int nLn = 0;
 
-            this.cargaInformacion.codigoArchivo.forEach((e) -> {
-                int nLn = 0;
-                nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+            boolean continua = true;
+            for (String e : this.cargaInformacion.codigoArchivo) {
                 boolean encontro = false;
-                Matcher mtch = ptr.matcher(e);
-                encontro = mtch.find();
-                if (!encontro) {
+                String[] divide = e.split("\\s+");
+                for (int i = 0; i < divide.length; i++) {
+                    //Matcher mtch = ptr.matcher(divide[i]);
 
-                    this.posicionPuntoComa.add(nLn);
+                    encontro = divide[i].matches("\\;");
+                    if (!encontro) {
+                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                    }
 
                 }
+                this.posicionPuntoComa.add(nLn);
+            }
 
-            });
             Collections.sort(this.posicionPuntoComa);
             return this.posicionPuntoComa.size();
 
@@ -230,29 +318,28 @@ public class Valida {
     }
     //#region MetodosValidacionesPuntoComa
 
-    private void ValidaBlancos(String ln, int nLn) {
-        try {
-
-            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
-            String str = "[\\s]{150,}";
-            Pattern ptr = Pattern.compile(str);
-
-            Matcher match = ptr.matcher(ln);
-
-            if (match.matches()) {
-                System.out.println("Se encontraron 150 espacios en blanco");
-            } else {
-                System.out.println("Se encontraron mas de 150 espacios en blanco");
-                MensajeError(msgE, nLn);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
-            e.printStackTrace();
-
-        }
-    }
-
+//    private void ValidaBlancos(String ln, int nLn) {
+//        try {
+//
+//            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
+//            String str = "[\\s]{150,}";
+//            Pattern ptr = Pattern.compile(str);
+//
+//            Matcher match = ptr.matcher(ln);
+//
+//            if (match.matches()) {
+//                System.out.println("Se encontraron 150 espacios en blanco");
+//            } else {
+//                System.out.println("Se encontraron mas de 150 espacios en blanco");
+//                MensajeError(msgE, nLn);
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
+//            e.printStackTrace();
+//
+//        }
+//    }
 //    private int ValidaSuperfluos(String ln, int nLn) {
 //        try {
 //            int resultado;
@@ -272,6 +359,7 @@ public class Valida {
 //            return -1;
 //        }
 //    }
+    //Se estan encontrando las reservadas pero pendiente mas analisis para empezar a descartar.
     protected boolean EncuentraReservadas() {
         try {
             boolean resultado = false;
@@ -280,7 +368,7 @@ public class Valida {
             boolean esReservadaPazcal = false;
 
             while (continua) {
-
+                String val = null;
                 for (String reservada : this.cargaInformacion.reservadasPascal) {
                     if (reservada != null) {
                         for (String e : this.cargaInformacion.codigoArchivo) {
@@ -291,15 +379,14 @@ public class Valida {
                                 Matcher mt = ptr.matcher(divide[i]);
 
                                 esReservada = mt.matches();
-                                esReservadaPazcal = reservada.toUpperCase().matches("(PROGRAM|END|VAR|BEGIN|READLN|WRITELN|REPEAT)");
-                                if (!esReservadaPazcal) {
+                                esReservadaPazcal = reservada.toUpperCase().matches("(END|PROGRAM|VAR|BEGIN|READLN|WRITELN|REPEAT|INTEGER|CHAR|REAL)");
+                                if (esReservadaPazcal == false) {
                                     if (esReservada) {
+                                        val = reservada;
                                         this.posicionReservadas.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
                                     }
                                 }
-
                             }
-
                         }
                     }
 
@@ -307,14 +394,97 @@ public class Valida {
                 Collections.sort(posicionReservadas);
                 continua = false;
             }
-
+            //System.out.println(this.posicionReservadas);
             resultado = this.posicionReservadas.isEmpty();
 
             //System.out.println("Se encontraron " + cont + " reservadas");
-            return resultado;
+            return !resultado;
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> EncuentraReservadas()=> " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean ValidarReadLn() {
+        try {
+
+            boolean continua = true;
+            while (continua) {
+
+                String patron = "((readln)\\s*\\(\\s*(input)\\s*,\\s*[a-z]{1,15}\\s*\\)\\s*\\;)|((readln)\\s*\\(\\s*[a-z]{1,15}\\s*\\)\\s*\\;)";
+                Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+
+                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
+                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                    String[] strs = e.split("\\s");
+                    for (int i = 0; i < strs.length; i++) {
+                        if (strs[i].equalsIgnoreCase("READLN")) {
+                            boolean resultado = true;
+                            Matcher mtch = ptr.matcher(e);
+                            resultado = mtch.find();
+                            System.out.println("Evaluando READLN-> " + resultado);
+
+                            if (!e.isEmpty()) {
+                                if (resultado == false) {
+                                    this.posicionReadLn.add(posicion);
+                                }
+                            }
+                        }
+                    }
+
+                });
+                Collections.sort(posicionReadLn);
+                continua = false;
+            }
+
+            return this.posicionReadLn.isEmpty();
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> ValidarReadLn()=> " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean ValidarWriteLn() {
+        try {
+
+            boolean continua = true;
+            while (continua) {
+                //String a=   "(writeln)\\*\\;|((writeln)\\s*\\(\\s*(output)\\s*\\)\\;)|((writeln)\\s*\\(\\s*(output)\\s*,\\'\\s*[a-z]{1,15}\\s*\\'\\)\\;)|((writeln)\\s*\\(\\s*([a-z]{1,15}),\\s*\\)\\;)";
+
+                String patron = "(writeln)\\*\\;|((writeln)\\s*\\(\\s*(output)\\s*\\)\\;)|((writeln)\\s*\\(\\s*(output)\\s*,\\'\\s*[a-z]{1,15}\\s*\\'\\)\\;)|((writeln)\\s*\\(\\s*([a-z]{1,15}),\\s*\\)\\;)";
+                Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+
+                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
+                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                    String[] strs = e.split("\\s");
+                    for (int i = 0; i < strs.length; i++) {
+                        if (strs[i].equalsIgnoreCase("WRITELINE")) {
+                            boolean resultado = true;
+                            Matcher mtch = ptr.matcher(e);
+                            resultado = mtch.find();
+                            System.out.println("Evaluando WRITELN-> " + resultado);
+
+                            if (!e.isEmpty()) {
+                                if (resultado == false) {
+                                    this.posicionReadLn.add(posicion);
+                                }
+                            }
+                        }
+                    }
+
+                });
+                Collections.sort(posicionReadLn);
+                continua = false;
+            }
+
+            return this.posicionReadLn.isEmpty();
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> ValidarWriteLn()=> " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -437,6 +607,76 @@ public class Valida {
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaVar()=> " + e.getMessage());
+            e.getCause();
+            return false;
+        }
+    }
+
+    private boolean ValidaBeginEnd() {//Solo esta validando de momento si End esta antes ubicado que Begin
+        try {
+
+            String patron = "BEGIN";
+            String patron2 = "(END\\s+\\.)";
+
+            Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+            Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
+
+            int posBegin = 0;
+            int posEnd = 0;
+            //ArrayList<String> temp = new ArrayList<>();
+            boolean resultado1 = true;
+            boolean resultado2 = true;
+            for (String e : this.cargaInformacion.codigoArchivo) {
+
+                int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+
+                Matcher mtch1 = ptr1.matcher(e);
+                Matcher mtch2 = ptr2.matcher(e);
+
+                resultado1 = mtch1.matches();
+                resultado2 = mtch2.matches();
+
+                if (!e.isEmpty()) {
+                    if (resultado1) {
+                        posBegin = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                        // System.out.println(" Begin"+posBegin);
+                    }
+
+                }
+                if (!e.isEmpty()) {
+                    if (resultado2) {
+                        posEnd = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                        //System.out.println(" End"+posEnd);
+                    }
+                }
+
+            }
+//            while (posBegin < posEnd) {
+//                temp.add(this.cargaInformacion.codigoArchivo.get(posEnd));
+//                posEnd++;
+//            }
+            boolean resultado = false;
+
+            resultado = posBegin > posEnd;
+
+            if (posBegin != 0 || posEnd != 0) {
+
+                if (resultado) {
+
+                    this.posicionBeginEnd.add(posEnd);//solo esta guardando la posicion de END para generar el error luego
+                }
+
+            } else {
+                this.posicionBeginEnd.add(posBegin);
+                this.posicionBeginEnd.add(posEnd);
+            }
+
+            Collections.sort(posicionBeginEnd);
+
+            return this.posicionBeginEnd.isEmpty();
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> ValidaBeginEnd()=> " + e.getMessage());
             e.getCause();
             return false;
         }
@@ -584,6 +824,17 @@ public class Valida {
             this.posicionReservadas.forEach((e) -> {
                 System.out.println("Resevada Encontrada en Linea-> " + e + " palabra-> " + this.cargaInformacion.reservadasPascal.get(e));
             });
+
+            this.posicionBeginEnd.forEach((e) -> {
+                System.out.println("Begin - END -> " + e);
+            });
+            this.posicionReadLn.forEach((e) -> {
+                System.out.println("Linea ReadLn Error -> " + e);
+            });
+            this.posicionWriteLn.forEach((e) -> {
+                System.out.println("Linea WriteLn Error -> " + e);
+            });
+
             imprimir = false;
         }
 

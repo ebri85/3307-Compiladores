@@ -1,0 +1,152 @@
+00001 
+00002    
+00003    
+00004                                            LINEA LARGA                                                                                                 151
+00005 PROgrama 1suMAR789%  xinPUT xOUTput ;          
+		ERROR 0001: Linea con mas de los caracteres soportados 
+00006 PROgram 1suMAR789%  xinPUT xOUTput ;          
+00007 PROgram suMAR789%  xinPUT xOUTput ;          
+00008 PROgram suMAR789  xinPUT xOUTput ;          
+00009 PROgram suMAR  xinPUT xOUTput ;          
+00010 PROgram suMAR  ( xinPUT xOUTput ;          
+00011 PROgram suMAR  ( inPUT xOUTput ;          
+00012 PROgram suMAR  ( inPUT, xOUTput ;          
+00013 PROgram suMAR  ( inPUT, OUTput ;          
+00014 
+00015      PROgram    suMAR    (    OUTPUT   ,    input   )    ;                   
+00016      PROgram    suMAR    (    inPUT   ,    OUTput   )    ;                   
+00017 
+00018     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00019     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 
+00020         PARA LA VARIABLE LLAMADA CUANTOS
+00021   }   
+00022 
+00023   {   
+00024     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+00025        SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR 
+00026           PARA LA VARIABLE LLAMADA CUANTOS
+00027 
+00028   (*
+00029     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+00030     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR   
+00031     PARA LA VARIABLE LLAMADA CUANTOS  
+00032   }
+00033 
+00034   {
+00035     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
+00036     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+00037     PARA LA VARIABLE LLAMADA CUANTOS   
+00038   *)
+00039 
+00040   {       
+00041     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00042     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+00043     PARA LA VARIABLE LLAMADA CUANTOS   
+00044   }    
+00045 
+00046 Indica que se va a usar la unidad o libreria de pantalla *)      
+00047 (* Indica que se     va a usar la unidad o libreria de pantalla      
+00048 {    Indica que se va a usar la unidad o libreria de pantalla       *)    
+00049 (*     Indica que se va a usar la unidad o libreria de pantalla     }
+00050 {*     Indica que se va a usar la unidad o libreria de pantalla     }
+00051 (*     Indica que se va a usar la unidad o libreria de pantalla     *}
+00052 
+00053 (* Indica que se va a usar la unidad o libreria de pantalla *)
+00054      USESxyz     
+00055      USes      
+00056   crt123    ;       
+00057   crt;
+00058 
+00059 V   
+00060 Va    
+00061 var    ;    
+00062 var
+00063   1CONTAdor901234567$%   =   iINTEGER;   
+00064   CONTAdor901234567$% = iINTEGER    ;
+00065   CONTAdor901234567 = iINTEGER    ;    
+00066   CONTAdor901234567 =   iINTEGER    ;
+00067   CONTAdor901234567 :    iINTEGER;    
+00068   CONTAdor:    INTEGER    ;
+00069   CUANTOS:      integer        ;     
+00070   WHILE:      integer        ;     
+00071   A, B, C:    INTEGER;
+00072 
+00073   contador:   rREal;    
+00074   contador:       REal;  
+00075   numero:       REal      ;
+00076   SUma    :        reAL     ;
+00077   TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155}
+00078   TEcla:        CHarr    ;   
+		ERROR 0001: Linea con mas de los caracteres soportados 
+00079   TEcla       :    CHar    ;    
+00080   
+00081   faltapunto1     INTEGER
+00082   faltapunto2     REAL
+00083   FALTAPUNTO3     CHAR
+00084 
+00085   faltapunto1     INTEGER  ;
+00086   faltapunto234     REAL;
+00087   FALTAPUNTO345xyz     CHAR;
+00088   FALTAPUNTO345xy     CHAR;
+00089   
+00090   
+00091 var
+00092 
+00093   
+00094 (* INICIO DEL PROGRAMA SUMAR *)
+00095 
+00096 BEgin
+00097   CLRscr; { LIMPIA LA PANTALLA }
+00098   
+00099   { ENTRADA DE DATOS }
+00100 
+00101   TEXTcolor( YELLOW );           { COLOR AMARILLO }
+00102   textBACKGROUND( RED );         { FONDO ROJO }
+00103   gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA }
+00104 
+00105   WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' );
+00106   DElaY( 1000 );  (* HACE UNA PAUSA *)
+00107   READln ( cuantoS );
+00108   wriTELN;  
+00109   WRITEln ( OUTPUT );  
+00110   TEXTcolor ( white );           { COLOR BLANCO }
+00111   TEXTBACKGROUND( blaCK);         { FONDO NEGRO }  
+00112 
+00113   (* INICIALIZACIÓN DE VARIABLES 
+00114      QUE NECESITA EL PROGRAMA PARA REALIZAR SUS CALCULOS *)
+00115 
+00116   contador := 0;
+00117   Suma     := 0.0;
+00118 
+00119   { INICIO DEL CICLO }
+00120 
+00121   soUND( 220 ); { SONIDO DE FRECUENCIA 220 HZ }
+00122   wrITELN ( OUTPUT );
+00123   writeLN ( 'SUMANDO...' );
+00124   writeln;
+00125 
+00126   REPeat
+00127     WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' );
+00128     readln ( numERO );
+00129     suMA     := SUma + NUMero;
+00130     contaDOR := CONTAdor + 1;
+00131   UNtil CONtaDOR >= CUanTOS;
+00132 
+00133   TEXTbaCKGROUND ( BLue );       { CON FONDO AZUL }
+00134   WRIteLN;
+00135   WRITEln ( OUtpUT );
+00136   WriTELN ( OUTPut, 'SUMA DE LOS NUMEROS; PULSE UNA TECLA PARA TERMINAR:' );
+00137   WRIteLN ( SumA: 7:2 );
+00138   TecLA := readKEY;              { ESPERAMOS QUE SE PULSE UNA TECLA }
+00139   writeln ( output, 'ADIOS :-)' );
+00140   deLAY( 2000 );                 { PAUSA ANTES DE ACABAR }
+00141   TExtCOLOR( LIGHTGRAY );        { COLORES POR DEFECTO DEL CMD/DOS }
+00142   TEXTBACKground( blaCK );       { Y BORRAMOS LA PANTALLA }
+00143   CLRscr;
+00144 EnD .
+00145 
+00146 (* FIN DEL PROGRAMA SUMAR *)
+00147  
+00148   
+00149                 
+00150                                  

@@ -39,8 +39,21 @@ public class main {
 
             Valida valida = new Valida(cargaInformacion);
              Generador generador = new Generador(cargaInformacion, infoArchivoPazcal);
-            
-           // generador.Compila();           
+             int esProgramaValido =0; //esta variable va a definir si compila o no la aplicacion, de momento igual se va a enviar a PASCAL
+             for(int i=0;i<valida.esProgramaValido.length;i++){
+                  if(valida.esProgramaValido[i]==false){
+                      esProgramaValido++;
+                  }
+             }
+             //En este if se define si compila o no, si alguna de las validaciones arrojaron false, suma al esProgramaValido 
+             if(esProgramaValido>0){
+                 System.out.println("\n\n\t\t****DE MOMENTO VOY A PASAR EL ARCHIVO AUNQUE TIENE ERRORES PERO NO DEBERIA****\nCOMPILANDO....");
+                 System.out.println("\nQUE PASCAL DECIDA SI LA APLIACION FUNCIONA");
+                 generador.Compila();  
+             }else{
+                 generador.Compila();  
+             }
+            //generador.Compila();           
 
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());
