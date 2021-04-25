@@ -29,7 +29,7 @@ public class Valida {
         LLAVE_DER {
             @Override
             public String toString() {
-                return "}";
+                return "};";
             }
         ;
         },
@@ -58,6 +58,7 @@ public class Valida {
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
+    private HashMap<Integer, String> noReservadas = new HashMap<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
     private ArrayList<Integer> posicionReadLn = new ArrayList<>();
     private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
@@ -74,7 +75,7 @@ public class Valida {
         System.out.println("Validando...");
         this.cargaInformacion = (CargaInformacion) o;
         RealizaValidaciones();
-        ImprimeArreglos();
+        //ImprimeArreglos();
     }
 
     protected void RealizaValidaciones() {
@@ -95,6 +96,7 @@ public class Valida {
                 this.esProgramaValido[6] = ValidaBeginEnd();
                 this.esProgramaValido[7] = ValidarReadLn();
                 this.esProgramaValido[8] = ValidarWriteLn();
+                this.esProgramaValido[9] = (EncuentraNoReservadas() != null || EncuentraNoReservadas() != "EXCEPTION");
 
                 evalua = false;
             }
@@ -120,12 +122,12 @@ public class Valida {
                             System.out.println("PUNTO Y COMA........ [OK]");
                         } else {
                             System.out.println("PUNTO Y COMA........ [ERROR]");
-//                            this.posicionPuntoComa.forEach((e) -> {
-//
-//                                String msgE = "\t\tERROR 0002: No se encontro Punto y Coma (;)] ";
-//
-//                                MensajeError(msgE, (e - 1));
-//                            });
+                            this.posicionPuntoComa.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0002: No se encontro Punto y Coma (;) ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
                         }
                         break;
                     case 2:
@@ -221,6 +223,18 @@ public class Valida {
                                 MensajeError(msgE, (e - 1));
                             });
                         }
+                    case 9:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("ENCUENTRA NO RESERVADAS........ [OK]");
+                        } else {
+                            System.out.println("ENCUENTRA NO RESERVADAS........ [ERROR]");
+                            this.posicionComentarios.keySet().forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0011: " + this.noReservadas.get(e).toUpperCase() + " No es una palabra Reservada PASCAL o PAZCAL ";
+
+                                MensajeError(msgE, (e - 1));
+                            });
+                        }
                         break;
                     default:
                         break;
@@ -295,16 +309,20 @@ public class Valida {
             for (String e : this.cargaInformacion.codigoArchivo) {
                 boolean encontro = false;
                 String[] divide = e.split("\\s+");
-                for (int i = 0; i < divide.length; i++) {
-                    //Matcher mtch = ptr.matcher(divide[i]);
 
-                    encontro = divide[i].matches("\\;");
-                    if (!encontro) {
-                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-                    }
-
+//                for (int i = 0; i < divide.length; i++) {
+//                    //Matcher mtch = ptr.matcher(divide[i]);
+//
+//                    //encontro = (";" ==divide[i]);
+//                    encontro = e.trim().endsWith(";");
+//                    if (encontro == false) {
+//                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+//                    }
+                encontro = e.trim().contains(";");
+                if (encontro == false) {
+                    nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                    this.posicionPuntoComa.add(nLn);
                 }
-                this.posicionPuntoComa.add(nLn);
             }
 
             Collections.sort(this.posicionPuntoComa);
@@ -318,47 +336,94 @@ public class Valida {
     }
     //#region MetodosValidacionesPuntoComa
 
-//    private void ValidaBlancos(String ln, int nLn) {
-//        try {
-//
-//            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
-//            String str = "[\\s]{150,}";
-//            Pattern ptr = Pattern.compile(str);
-//
-//            Matcher match = ptr.matcher(ln);
-//
-//            if (match.matches()) {
-//                System.out.println("Se encontraron 150 espacios en blanco");
-//            } else {
-//                System.out.println("Se encontraron mas de 150 espacios en blanco");
-//                MensajeError(msgE, nLn);
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
-//            e.printStackTrace();
-//
-//        }
-//    }
-//    private int ValidaSuperfluos(String ln, int nLn) {
-//        try {
-//            int resultado;
-//
-//            String strInicio = "(\\s)?"; //<- deberia de validar si existe 2 o mas espacios en blanco
-//            Pattern ptr = Pattern.compile(strInicio);
-//
-//            Matcher match = ptr.matcher(ln);
-//
-//            resultado = (match.matches()) ? 1 : 0;
-//
-//            return resultado;
-//
-//        } catch (Exception e) {
-//            System.out.println("Clase Valida-> ValidaSuperfluos()=> " + e.getMessage());
-//            e.printStackTrace();
-//            return -1;
-//        }
-//    }
+    //    private void ValidaBlancos(String ln, int nLn) {
+    //        try {
+    //
+    //            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
+    //            String str = "[\\s]{150,}";
+    //            Pattern ptr = Pattern.compile(str);
+    //
+    //            Matcher match = ptr.matcher(ln);
+    //
+    //            if (match.matches()) {
+    //                System.out.println("Se encontraron 150 espacios en blanco");
+    //            } else {
+    //                System.out.println("Se encontraron mas de 150 espacios en blanco");
+    //                MensajeError(msgE, nLn);
+    //            }
+    //
+    //        } catch (Exception e) {
+    //            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
+    //            e.printStackTrace();
+    //
+    //        }
+    //    }
+    //    private int ValidaSuperfluos(String ln, int nLn) {
+    //        try {
+    //            int resultado;
+    //
+    //            String strInicio = "(\\s)?"; //<- deberia de validar si existe 2 o mas espacios en blanco
+    //            Pattern ptr = Pattern.compile(strInicio);
+    //
+    //            Matcher match = ptr.matcher(ln);
+    //
+    //            resultado = (match.matches()) ? 1 : 0;
+    //
+    //            return resultado;
+    //
+    //        } catch (Exception e) {
+    //            System.out.println("Clase Valida-> ValidaSuperfluos()=> " + e.getMessage());
+    //            e.printStackTrace();
+    //            return -1;
+    //        }
+    //    }
+    //Se estan encontrando las reservadas pero pendiente mas analisis para empezar a descartar.
+    protected String EncuentraNoReservadas() {
+        try {
+            String resultado = null;
+            int cont = 0;
+            boolean continua = true;
+            // boolean esReservadaPazcal = false;
+
+            while (continua) {
+                String val = null;
+                for (String reservada : this.cargaInformacion.reservadasPascal) {
+                    if (reservada != null) {
+                        for (String e : this.cargaInformacion.codigoArchivo) {
+                            boolean esReservada = false;
+                            String[] divide = e.split("\\s");
+                            for (int i = 0; i < divide.length; i++) {
+                                Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
+                                Matcher mt = ptr.matcher(divide[i]);
+
+                                esReservada = mt.matches();
+
+                                if (!esReservada) {
+                                    resultado = divide[i];
+                                    this.noReservadas.put(this.cargaInformacion.codigoArchivo.indexOf(e), resultado);
+//                                    this.noReservadas.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                //   Collections.sort(noReservadas);
+
+                continua = false;
+            }
+            //System.out.println(this.posicionReservadas);
+
+            //System.out.println("Se encontraron " + cont + " reservadas");
+            return resultado;
+
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> EncuentraNoReservadas()=> " + e.getMessage());
+            e.printStackTrace();
+            return "EXCEPTION";
+        }
+    }
+
     //Se estan encontrando las reservadas pero pendiente mas analisis para empezar a descartar.
     protected boolean EncuentraReservadas() {
         try {
@@ -392,6 +457,7 @@ public class Valida {
 
                 }
                 Collections.sort(posicionReservadas);
+
                 continua = false;
             }
             //System.out.println(this.posicionReservadas);
@@ -686,7 +752,11 @@ public class Valida {
         try {
 
             boolean resultado = false;
-
+            boolean flagParzq =false;
+            boolean flagParDer =false;
+            boolean flagLlIz =false;
+            boolean flagLlDer =false;
+            
             String llaveDer = null, llaveIzq = null, parIzq = null, parDer = null;
             int nLn = 0;
             int llaveD = 0;
