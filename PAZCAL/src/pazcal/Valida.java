@@ -781,41 +781,7 @@ public class Valida {
                             //almacena donde se encuentran los parentesis o llaves 
                             this.posicionComentarios.put(nLn, p.name());
 
-                            switch (PARENTESIS.valueOf(p.name())) {
 
-                                case LLAVE_IZQ:
-                                    llaveI++;
-                                    llaveIzq = arr[i];
-                                    posicionL = nLn;
-                                    hileraL += "\t" + posicionL + " " + ln + "\n";
-
-                                    break;
-                                case LLAVE_DER:
-                                    llaveD++;
-                                    llaveDer = arr[i];
-                                    posicionL = nLn;
-                                    hileraL += "\t" + posicionL + " " + ln + "\n";
-
-                                    break;
-                                case PARENTESIS_IZQ:
-                                    parI++;
-                                    parIzq = arr[i];
-                                    posicionP = nLn;
-                                    hileraP += "\t" + posicionP + " " + ln + "\n";
-
-                                    break;
-
-                                case PARENTESIS_DER:
-                                    parD++;
-                                    parDer = arr[i];
-                                    posicionP = nLn;
-                                    hileraP += "\t" + posicionP + " " + ln + "\n";
-
-                                    break;
-
-                                default:
-                                    break;
-                            }
                         }
 
                     }
