@@ -60,13 +60,14 @@ public class Valida {
     private ArrayList<Integer> posicionTamanoLinea = new ArrayList<>();
     private ArrayList<Integer> posicionPuntoComa = new ArrayList<>();
     private ArrayList<Dato> posicionProgram = new ArrayList<>();
-    private ArrayList<Integer> posicionVar = new ArrayList<>();
-    private ArrayList<Integer> posicionDefVar = new ArrayList<>();
+    private ArrayList<Dato> posicionVar = new ArrayList<>();
+    private ArrayList<Dato> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
     private ArrayList<Dato> noReservadas = new ArrayList<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
     private ArrayList<Integer> posicionReadLn = new ArrayList<>();
     private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
+    private ArrayList<Variable> varCreadas = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[11]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -169,9 +170,9 @@ public class Valida {
                             System.out.println("FORMATO VAR........ [ERROR]");
                             this.posicionDefVar.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0006: Error en la estructura del la instruccion VAR ";
+                                String msgE = "\t\tERROR 0006: Error en la estructura del la instruccion VAR " + e.dato;
 
-                                MensajeError(msgE, (e - 1));
+                                MensajeError(msgE, (e.numeroLinea - 1));
                             });
                         }
                         break;
@@ -595,14 +596,14 @@ public class Valida {
     private boolean ValidaVar() {
         try {
 
-            String patron = "(VAR)";
-            String patron2 = "(BEGIN)";
+            String patron = "VAR";
+            String patron2 = "BEGIN";
 
             Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
             Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
 
             int posVar = 0;
-            int posBegin = 0;
+            int posBegin = this.posBegin;
             ArrayList<String> temp = new ArrayList<>();
             boolean resultado1 = true;
             boolean resultado2 = true;
@@ -636,7 +637,7 @@ public class Valida {
 
             for (String e : temp) {
                 boolean res = true;
-                String patronV = "(VAR)";
+                String patronV = "VAR";
                 String patronVariables = "(\\s+(\\w[^\\.\\%]){1,15}:\\s+(INTEGER|CHAR|REAL);)";
                 Pattern ptrVariables = Pattern.compile(patronVariables, Pattern.CASE_INSENSITIVE);
                 Pattern ptrV = Pattern.compile(patronV, Pattern.CASE_INSENSITIVE);
@@ -651,21 +652,37 @@ public class Valida {
 
                 if (!e.isEmpty()) {
                     if (!res) {
-                        //System.out.println(res + "  " + e);
-                        this.posicionVar.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                        System.out.println(res + "  " + e);
+                        this.posicionVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, "Error en formato de Reservada VAR"));
                     }
                 }
                 if (!e.isEmpty()) {
+
                     if (esVariable) {
-                        // System.out.println(esVariable + "  " + e);
-                        this.posicionVar.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                        Variable variable = new Variable();
+                        //System.out.println("esVariable " + esVariable + "  " + e);
+                        String[] arr = e.split(":");
+
+                        variable.nombre = arr[0];
+                        this.varCreadas.add(new Variable(arr[0], arr[1]));
+                        if (!this.varCreadas.contains(variable.nombre)) {
+
+                            this.varCreadas.add(new Variable(arr[0], arr[1]));
+                        } else {
+
+                            this.posicionDefVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, " LA VARIABLE YA EXISTE " + variable.nombre));
+                        }
+                         this.posicionDefVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, " LA VARIABLE YA EXISTE " + variable.nombre));
+
+                        // (this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
                     }
                 }
             }
 
-            Collections.sort(posicionVar);
+            //Collections.sort(posicionVar);
+            System.out.println("Esta Vacia posDefVar " + this.posicionDefVar.isEmpty());
 
-            return this.posicionVar.isEmpty();
+            return this.posicionDefVar.isEmpty();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaVar()=> " + e.getMessage());

@@ -141,6 +141,7 @@
 00077 
 00078   contador:   rREal;    
 00079   contador:       REal;  
+		ERROR 0006: Error en la estructura del la instruccion VAR  LA VARIABLE YA EXISTE   contador
 00080   numero:       REal      ;
 00081   SUma    :        reAL     ;
 00082   TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155}
