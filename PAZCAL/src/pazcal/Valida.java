@@ -60,7 +60,7 @@ public class Valida {
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
-    private ArrayList <Dato> noReservadas = new ArrayList<>();
+    private ArrayList<Dato> noReservadas = new ArrayList<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
     private ArrayList<Integer> posicionReadLn = new ArrayList<>();
     private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
@@ -98,7 +98,7 @@ public class Valida {
                 this.esProgramaValido[6] = ValidaBeginEnd();
                 this.esProgramaValido[7] = ValidarReadLn();
                 this.esProgramaValido[8] = ValidarWriteLn();
-                this.esProgramaValido[9] = (EncuentraNoReservadas() != null);
+                this.esProgramaValido[9] = EncuentraNoReservadas();
 
                 evalua = false;
             }
@@ -310,21 +310,16 @@ public class Valida {
             boolean continua = true;
             for (String e : this.cargaInformacion.codigoArchivo) {
                 boolean encontro = false;
-                String[] divide = e.split("\\s+");
+                if (!e.isEmpty()) {
+                    String[] divide = e.split("\\s");
 
-//                for (int i = 0; i < divide.length; i++) {
-//                    //Matcher mtch = ptr.matcher(divide[i]);
-//
-//                    //encontro = (";" ==divide[i]);
-//                    encontro = e.trim().endsWith(";");
-//                    if (encontro == false) {
-//                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-//                    }
-                encontro = e.trim().contains(";");
-                if (encontro == false) {
-                    nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-                    this.posicionPuntoComa.add(nLn);
+                    encontro = e.trim().contains(";");
+                    if (encontro == false) {
+                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                        this.posicionPuntoComa.add(nLn);
+                    }
                 }
+
             }
 
             Collections.sort(this.posicionPuntoComa);
@@ -336,98 +331,78 @@ public class Valida {
             return 1;
         }
     }
-    //#region MetodosValidacionesPuntoComa
 
-    //    private void ValidaBlancos(String ln, int nLn) {
-    //        try {
-    //
-    //            String msgE = "ERROR 0003: Linea con mas espacios en blancos de lo permitido";
-    //            String str = "[\\s]{150,}";
-    //            Pattern ptr = Pattern.compile(str);
-    //
-    //            Matcher match = ptr.matcher(ln);
-    //
-    //            if (match.matches()) {
-    //                System.out.println("Se encontraron 150 espacios en blanco");
-    //            } else {
-    //                System.out.println("Se encontraron mas de 150 espacios en blanco");
-    //                MensajeError(msgE, nLn);
-    //            }
-    //
-    //        } catch (Exception e) {
-    //            System.out.println("Clase Valida-> ValidaBlancos()=> " + e.getMessage());
-    //            e.printStackTrace();
-    //
-    //        }
-    //    }
-    //    private int ValidaSuperfluos(String ln, int nLn) {
-    //        try {
-    //            int resultado;
-    //
-    //            String strInicio = "(\\s)?"; //<- deberia de validar si existe 2 o mas espacios en blanco
-    //            Pattern ptr = Pattern.compile(strInicio);
-    //
-    //            Matcher match = ptr.matcher(ln);
-    //
-    //            resultado = (match.matches()) ? 1 : 0;
-    //
-    //            return resultado;
-    //
-    //        } catch (Exception e) {
-    //            System.out.println("Clase Valida-> ValidaSuperfluos()=> " + e.getMessage());
-    //            e.printStackTrace();
-    //            return -1;
-    //        }
-    //    }
-    //Se estan encontrando las reservadas pero pendiente mas analisis para empezar a descartar.
-    protected String EncuentraNoReservadas() {
+    //Se estan encontrando las palabras reservadas pero pendiente mas analisis para empezar a descartar.
+    protected boolean EncuentraNoReservadas() {
         try {
+            ArrayList<Boolean> sonReservadas = new ArrayList();
             String resultado = null;
             int cont = 0;
+
             boolean continua = true;
             // boolean esReservadaPazcal = false;
 
             while (continua) {
-                String val = null;
-                for (String reservada : this.cargaInformacion.reservadasPascal) {
-                    if (reservada != null) {
-                        for (String e : this.cargaInformacion.codigoArchivo) {
-                            boolean esReservada = false;
-                            
-                            String[] divide = e.split("\\s");
-                            for (int i = 0; i < divide.length; i++) {
-                                Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
-                                Matcher mt = ptr.matcher(divide[i]);
+                int nLn = 0;
+                for (String e : this.cargaInformacion.codigoArchivo) {
 
-                                esReservada = mt.matches();
+                    if (!e.isEmpty() || e != null) {
+                        String[] divide = e.split("\\s+");
+                        for (int i = 0; i < divide.length; i++) {
+                            for (String reservada : this.cargaInformacion.reservadasPascal) {
+                                if (reservada != null) {
+                                    boolean esReservada = false;
 
-                                if (!esReservada) {
-                                    resultado = divide[i];
-                                    this.noReservadas.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e)+1, resultado));
-//                                    this.noReservadas.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                                    if (divide[i].toLowerCase().matches("[a-z]{3,15}")) {
+                                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                                        Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
+                                        Matcher mt = ptr.matcher(divide[i]);
+                                        esReservada = mt.matches();
+
+                                        //System.out.println("RESERVADA: " + reservada + "  Palabra: " + divide[i] + " esReservada: " + esReservada);
+                                        if (!esReservada) {
+
+                                            //System.out.println("RESERVADA: " + reservada + "  Palabra: " + divide[i] + " esReservada: " + esReservada);
+                                            resultado = divide[i];
+                                            // System.out.println(resultado);
+
+                                        }
+                                        sonReservadas.add(esReservada);
+
+                                    }
+
                                 }
                             }
+
                         }
+                        if (!sonReservadas.contains(true)) {
+                            if (resultado != null) {
+                                // System.out.println(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, resultado).toString());
+                                this.noReservadas.add(new Dato(nLn, resultado));
+
+                            }
+                        }
+
                     }
 
                 }
-                //   Collections.sort(noReservadas);
 
+                //   Collections.sort(noReservadas);
                 continua = false;
             }
-            System.out.println(" Resultado NO RESERVADAS"+ resultado);
+            System.out.println(" Resultado NO RESERVADAS" + resultado);
 
             //System.out.println("Se encontraron " + cont + " reservadas");
-            return resultado;
+            return this.noReservadas.isEmpty();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> EncuentraNoReservadas()=> " + e.getMessage());
             e.printStackTrace();
-            return "EXCEPTION";
+            return false;
         }
     }
-
     //Se estan encontrando las reservadas pero pendiente mas analisis para empezar a descartar.
+
     protected boolean EncuentraReservadas() {
         try {
             boolean resultado = false;
@@ -816,11 +791,10 @@ public class Valida {
                         }
 
                     }
-                } 
+                }
 
             }
 
-            
             this.posicionErroresComentarios.forEach(
                     (e) -> {
                         System.out.println(this.posicionErroresComentarios.indexOf(e) + "  " + e.toString());

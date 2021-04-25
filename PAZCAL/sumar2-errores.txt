@@ -1,0 +1,235 @@
+00001 
+00002    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00003    
+00004                                            LINEA LARGA                                                                                                 151
+		ERROR 0001: Linea con mas de los caracteres soportados 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0000: LARGA No es una palabra Reservada PASCAL o PAZCAL 
+00005 PROgrama 1suMAR789%  xinPUT xOUTput ;          
+		ERROR 0000: xOUTput No es una palabra Reservada PASCAL o PAZCAL 
+00006 PROgram 1suMAR789%  xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00007 PROgram suMAR789%  xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00008 PROgram suMAR789  xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00009 PROgram suMAR  xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00010 PROgram suMAR  ( xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00011 PROgram suMAR  ( inPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00012 PROgram suMAR  ( inPUT, xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+00013 PROgram suMAR  ( inPUT, OUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00014 
+00015      PROgram    suMAR    (    OUTPUT   ,    input   )    ;                   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00016      PROgram    suMAR    (    inPUT   ,    OUTput   )    ;                   
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00017 
+00018     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00019     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00020         PARA LA VARIABLE LLAMADA CUANTOS
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00021   }   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00022 
+00023   {   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00024     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00025        SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00026           PARA LA VARIABLE LLAMADA CUANTOS
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00027 
+00028   (*
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00029     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+00030     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00031     PARA LA VARIABLE LLAMADA CUANTOS  
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00032   }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00033 
+00034   {
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00035     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00036     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00037     PARA LA VARIABLE LLAMADA CUANTOS   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00038   *)
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00039 
+00040   {       
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00041     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00042     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+00043     PARA LA VARIABLE LLAMADA CUANTOS   
+00044   }    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00045 
+00046 Indica que se va a usar la unidad o libreria de pantalla *)      
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00047 (* Indica que se     va a usar la unidad o libreria de pantalla      
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00048 {    Indica que se va a usar la unidad o libreria de pantalla       *)    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00049 (*     Indica que se va a usar la unidad o libreria de pantalla     }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00050 {*     Indica que se va a usar la unidad o libreria de pantalla     }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00051 (*     Indica que se va a usar la unidad o libreria de pantalla     *}
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00052 
+00053 (* Indica que se va a usar la unidad o libreria de pantalla *)
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00054      USESxyz     
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00055      USes      
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00056   crt123    ;       
+00057   crt;
+00058 
+00059 V   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00060 Va    
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00061 var    ;    
+00062 var
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00063   1CONTAdor901234567$%   =   iINTEGER;   
+00064   CONTAdor901234567$% = iINTEGER    ;
+00065   CONTAdor901234567 = iINTEGER    ;    
+00066   CONTAdor901234567 =   iINTEGER    ;
+00067   CONTAdor901234567 :    iINTEGER;    
+00068   CONTAdor:    INTEGER    ;
+00069   CUANTOS:      integer        ;     
+00070   WHILE:      integer        ;     
+00071   A, B, C:    INTEGER;
+00072 
+00073   contador:   rREal;    
+00074   contador:       REal;  
+00075   numero:       REal      ;
+00076   SUma    :        reAL     ;
+00077   TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155}
+		ERROR 0001: Linea con mas de los caracteres soportados 
+00078   TEcla:        CHarr    ;   
+00079   TEcla       :    CHar    ;    
+00080   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00081   faltapunto1     INTEGER
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00082   faltapunto2     REAL
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00083   FALTAPUNTO3     CHAR
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00084 
+00085   faltapunto1     INTEGER  ;
+00086   faltapunto234     REAL;
+00087   FALTAPUNTO345xyz     CHAR;
+00088   FALTAPUNTO345xy     CHAR;
+00089   
+00090   
+00091 var
+00092 
+00093   
+00094 (* INICIO DEL PROGRAMA SUMAR *)
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00095 
+00096 BEgin
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00097   CLRscr; { LIMPIA LA PANTALLA }
+00098   
+00099   { ENTRADA DE DATOS }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00100 
+00101   TEXTcolor( YELLOW );           { COLOR AMARILLO }
+00102   textBACKGROUND( RED );         { FONDO ROJO }
+00103   gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA }
+00104 
+00105   WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' );
+00106   DElaY( 1000 );  (* HACE UNA PAUSA *)
+00107   READln ( cuantoS );
+00108   wriTELN;  
+00109   WRITEln ( OUTPUT );  
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00110   TEXTcolor ( white );           { COLOR BLANCO }
+00111   TEXTBACKGROUND( blaCK);         { FONDO NEGRO }  
+00112 
+00113   (* INICIALIZACIÓN DE VARIABLES 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00114      QUE NECESITA EL PROGRAMA PARA REALIZAR SUS CALCULOS *)
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00115 
+00116   contador := 0;
+00117   Suma     := 0.0;
+00118 
+00119   { INICIO DEL CICLO }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00120 
+00121   soUND( 220 ); { SONIDO DE FRECUENCIA 220 HZ }
+00122   wrITELN ( OUTPUT );
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00123   writeLN ( 'SUMANDO...' );
+00124   writeln;
+00125 
+00126   REPeat
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00127     WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' );
+00128     readln ( numERO );
+00129     suMA     := SUma + NUMero;
+00130     contaDOR := CONTAdor + 1;
+00131   UNtil CONtaDOR >= CUanTOS;
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00132 
+00133   TEXTbaCKGROUND ( BLue );       { CON FONDO AZUL }
+00134   WRIteLN;
+00135   WRITEln ( OUtpUT );
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00136   WriTELN ( OUTPut, 'SUMA DE LOS NUMEROS; PULSE UNA TECLA PARA TERMINAR:' );
+00137   WRIteLN ( SumA: 7:2 );
+00138   TecLA := readKEY;              { ESPERAMOS QUE SE PULSE UNA TECLA }
+00139   writeln ( output, 'ADIOS :-)' );
+00140   deLAY( 2000 );                 { PAUSA ANTES DE ACABAR }
+00141   TExtCOLOR( LIGHTGRAY );        { COLORES POR DEFECTO DEL CMD/DOS }
+00142   TEXTBACKground( blaCK );       { Y BORRAMOS LA PANTALLA }
+00143   CLRscr;
+00144 EnD .
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00145 
+00146 (* FIN DEL PROGRAMA SUMAR *)
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00147  
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00148   
+00149                 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+00150                                  
+		ERROR 0002: No se encontro Punto y Coma (;) 
