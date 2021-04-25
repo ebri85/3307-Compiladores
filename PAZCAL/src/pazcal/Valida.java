@@ -50,7 +50,10 @@ public class Valida {
     };
 
     }
-
+    int posProgram = 0;
+    int posVar = 0;
+    int posBegin = 0;
+    int posEnd = 0;
 
     private ArrayList<Dato> encuentraComentarios = new ArrayList<>();
     private ArrayList<Dato> posicionErroresComentarios = new ArrayList<>();
@@ -92,10 +95,10 @@ public class Valida {
                 this.esProgramaValido[0] = tamanolineasValidas();
                 this.esProgramaValido[1] = lineasPuntoComa();
                 this.esProgramaValido[2] = EncuentraComentarios();
+                this.esProgramaValido[6] = ValidaBeginEnd();
                 this.esProgramaValido[3] = ValidaProgram();
                 this.esProgramaValido[4] = ValidaVar();
                 this.esProgramaValido[5] = EncuentraReservadas();
-                this.esProgramaValido[6] = ValidaBeginEnd();
                 this.esProgramaValido[7] = ValidarReadLn();
                 this.esProgramaValido[8] = ValidarWriteLn();
                 this.esProgramaValido[9] = EncuentraNoReservadas();
@@ -193,7 +196,7 @@ public class Valida {
                             System.out.println("BEGIN se encuentra antes de END........ [NO]");
                             this.posicionBeginEnd.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0008: Error en la estructura del la instruccion BEGIN/END ";
+                                String msgE = "\t\tERROR 0008: Error en la estructura del la instruccion BEGIN/END  " + "END se encuentra en la Linea: " + this.posEnd + "Begin se encuentra en la Linea: " + this.posBegin;
 
                                 MensajeError(msgE, (e - 1));
                             });
@@ -541,47 +544,39 @@ public class Valida {
             boolean continua = true;
             while (continua) {
 
-                //String patron = "(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\,{1}\\s*(output)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
-//                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
-//                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-//                    String[] strs = e.split("\\s");
-//                    for (int i = 0; i < strs.length; i++) {
-//                        if (strs[i].equalsIgnoreCase("PROGRAM")) {
-//                            boolean resultado = false;
-//                            Matcher mtch = ptr.matcher(e);
-//                            resultado = mtch.matches();
-//                            System.out.println("VALIDANDO PROGRAM: " + mtch.group());
-//
-//                            if (!e.isEmpty()) {
-//                                if (resultado == false) {
-//                                    this.posicionProgram.add(posicion);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                });
                 for (String str : this.cargaInformacion.codigoArchivo) {
                     int posicion = this.cargaInformacion.codigoArchivo.indexOf(str) + 1;
-                    String group = null;
-                    int grupos = 0;
-                    if (!str.isEmpty()) {
-                        // String patron = "((program)\\s+[a-z]{1,15})\\s*\\({1}\\s*((input)\\s*\\,{1}\\s*(output)\\s*\\){1})(\\s*\\;{1})|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
+                    String[] arr = str.toLowerCase().split("\\s+");
 
-                        String patron = "(((program\\s+[a-z]{1,15}(\\s*(\\(\\s*input\\s*\\,\\s*output\\s*\\)) | (\\s*(\\(\\s*input\\s*\\))) | (\\s*(\\(\\s*output\\s*\\))))))\\s*\\;|(program\\s+[a-z]{1,15}\\s*\\;))";
-                        Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
-                        Matcher match = ptr.matcher(str);
-                        // System.out.println("MATCH: " + match.find() + " " + str);
-                        if (!match.find()) {
+                    for (int i = 0; i < arr.length; i++) {
+                        if (arr[i] != null) {
+                            if (arr[i].matches("program")) {
+                                if (!str.isEmpty()) {
+                                    // String patron = "((program)\\s+[a-z]{1,15})\\s*\\({1}\\s*((input)\\s*\\,{1}\\s*(output)\\s*\\){1})(\\s*\\;{1})|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
 
-                            System.out.println("ENTRO a FIND");
-                            resultado = str;
+                                    String patron = "(((program\\s+[a-z]{1,15}(\\s*(\\(\\s*input\\s*\\,\\s*output\\s*\\)) | (\\s*(\\(\\s*input\\s*\\))) | (\\s*(\\(\\s*output\\s*\\))))))\\s*\\;|(program\\s+[a-z]{1,15}\\s*\\;))";
+                                    Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+                                    Matcher match = ptr.matcher(str);
+                                    // System.out.println("MATCH: " + match.find() + " " + str);
+                                    if (!match.matches()) {
 
-                            this.posicionProgram.add(new Dato(posicion, resultado));
+                                        //System.out.println("ENTRO a FIND");
+                                        resultado = str;
 
+                                        this.posicionProgram.add(new Dato(posicion, resultado));
+
+                                    } else {
+                                        if (this.posProgram != 0) {
+                                            this.posProgram = posicion;
+                                        }
+
+                                    }
+
+                                }
+                            }
                         }
-
                     }
+
                 }
 
                 // Collections.sort(posicionProgram);
@@ -700,19 +695,22 @@ public class Valida {
                 Matcher mtch1 = ptr1.matcher(e);
                 Matcher mtch2 = ptr2.matcher(e);
 
-                resultado1 = mtch1.matches();
-                resultado2 = mtch2.matches();
+                resultado1 = mtch1.find();
+                resultado2 = mtch2.find();
 
                 if (!e.isEmpty()) {
                     if (resultado1) {
                         posBegin = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
                         // System.out.println(" Begin"+posBegin);
+                        this.posBegin = posBegin;
                     }
 
                 }
                 if (!e.isEmpty()) {
                     if (resultado2) {
                         posEnd = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+
+                        this.posEnd = posEnd;
                         //System.out.println(" End"+posEnd);
                     }
                 }
