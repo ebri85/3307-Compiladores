@@ -14,6 +14,11 @@ PROgram suMAR  ( inPUT, OUTput ;
 
      PROgram    suMAR    (    OUTPUT   ,    input   )    ;                   
      PROgram    suMAR    (    inPUT   ,    OUTput   )    ;                   
+	 PROgram    suMAR (input);     
+PROgram    suMAR (output);       	 
+PROgram    suMAR12$ (output);  
+PROgram    suMAR ;
+PROgram    suMAR 
 
     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 

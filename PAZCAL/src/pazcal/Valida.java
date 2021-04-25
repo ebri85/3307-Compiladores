@@ -56,7 +56,7 @@ public class Valida {
     private ArrayList<Dato> posicionErroresComentarios = new ArrayList<>();
     private ArrayList<Integer> posicionTamanoLinea = new ArrayList<>();
     private ArrayList<Integer> posicionPuntoComa = new ArrayList<>();
-    private ArrayList<Integer> posicionProgram = new ArrayList<>();
+    private ArrayList<Dato> posicionProgram = new ArrayList<>();
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
@@ -153,9 +153,9 @@ public class Valida {
                             System.out.println("FORMATO PROGRAM........ [ERROR]");
                             this.posicionProgram.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0005: Error en la estructura del la instruccion PROGRAM ";
+                                String msgE = "\t\tERROR 0005: Error en la estructura del la instruccion PROGRAM =>" + e.dato + " ";
 
-                                MensajeError(msgE, (e - 1));
+                                MensajeError(msgE, (e.numeroLinea - 1));
                             });
                         }
                         break;
@@ -536,35 +536,58 @@ public class Valida {
 
     private boolean ValidaProgram() {
         try {
+            String resultado = null;
 
             boolean continua = true;
             while (continua) {
 
-                String patron = "(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\,{1}\\s*(output)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
-                Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+                //String patron = "(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\,{1}\\s*(output)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
+//                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
+//                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+//                    String[] strs = e.split("\\s");
+//                    for (int i = 0; i < strs.length; i++) {
+//                        if (strs[i].equalsIgnoreCase("PROGRAM")) {
+//                            boolean resultado = false;
+//                            Matcher mtch = ptr.matcher(e);
+//                            resultado = mtch.matches();
+//                            System.out.println("VALIDANDO PROGRAM: " + mtch.group());
+//
+//                            if (!e.isEmpty()) {
+//                                if (resultado == false) {
+//                                    this.posicionProgram.add(posicion);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                });
+                for (String str : this.cargaInformacion.codigoArchivo) {
+                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(str) + 1;
+                    String group = null;
+                    int grupos = 0;
+                    if (!str.isEmpty()) {
+                        // String patron = "((program)\\s+[a-z]{1,15})\\s*\\({1}\\s*((input)\\s*\\,{1}\\s*(output)\\s*\\){1})(\\s*\\;{1})|(program)\\s+[a-z]{1,15}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(input)\\s*\\){1}\\s*\\;{1}|(program)\\s+[a-z]{1,15}\\s*\\({1}\\s*(output)\\s*\\){1}\\s*\\;{1}";
 
-                this.cargaInformacion.codigoArchivo.forEach((String e) -> {
-                    int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-                    String[] strs = e.split("\\s");
-                    for (int i = 0; i < strs.length; i++) {
-                        if (strs[i].equalsIgnoreCase("PROGRAM")) {
-                            boolean resultado = false;
-                            Matcher mtch = ptr.matcher(e);
-                            resultado = mtch.find();
+                        String patron = "(((program\\s+[a-z]{1,15}(\\s*(\\(\\s*input\\s*\\,\\s*output\\s*\\)) | (\\s*(\\(\\s*input\\s*\\))) | (\\s*(\\(\\s*output\\s*\\))))))\\s*\\;|(program\\s+[a-z]{1,15}\\s*\\;))";
+                        Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+                        Matcher match = ptr.matcher(str);
+                        // System.out.println("MATCH: " + match.find() + " " + str);
+                        if (!match.find()) {
 
-                            if (!e.isEmpty()) {
-                                if (resultado == false) {
-                                    this.posicionProgram.add(posicion);
-                                }
-                            }
+                            System.out.println("ENTRO a FIND");
+                            resultado = str;
+
+                            this.posicionProgram.add(new Dato(posicion, resultado));
+
                         }
-                    }
 
-                });
-                Collections.sort(posicionProgram);
+                    }
+                }
+
+                // Collections.sort(posicionProgram);
                 continua = false;
             }
-
+            System.out.println(this.posicionProgram.isEmpty());
             return this.posicionProgram.isEmpty();
 
         } catch (Exception e) {

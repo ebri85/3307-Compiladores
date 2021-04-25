@@ -2,234 +2,360 @@
 00002    
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    
 00003    
 00004                                            LINEA LARGA                                                                                                 151
 		ERROR 0001: Linea con mas de los caracteres soportados 
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>                                           LINEA LARGA                                                                                                 151 
 		ERROR 0000: LARGA No es una palabra Reservada PASCAL o PAZCAL 
 00005 PROgrama 1suMAR789%  xinPUT xOUTput ;          
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgrama 1suMAR789%  xinPUT xOUTput ;           
 		ERROR 0000: xOUTput No es una palabra Reservada PASCAL o PAZCAL 
 00006 PROgram 1suMAR789%  xinPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram 1suMAR789%  xinPUT xOUTput ;           
 00007 PROgram suMAR789%  xinPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR789%  xinPUT xOUTput ;           
 00008 PROgram suMAR789  xinPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR789  xinPUT xOUTput ;           
 00009 PROgram suMAR  xinPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR  xinPUT xOUTput ;           
 00010 PROgram suMAR  ( xinPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR  ( xinPUT xOUTput ;           
 00011 PROgram suMAR  ( inPUT xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR  ( inPUT xOUTput ;           
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 00012 PROgram suMAR  ( inPUT, xOUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR  ( inPUT, xOUTput ;           
 00013 PROgram suMAR  ( inPUT, OUTput ;          
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram suMAR  ( inPUT, OUTput ;           
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 00014 
 00015      PROgram    suMAR    (    OUTPUT   ,    input   )    ;                   
-		ERROR 0005: Error en la estructura del la instruccion PROGRAM 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>     PROgram    suMAR    (    OUTPUT   ,    input   )    ;                    
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 00016      PROgram    suMAR    (    inPUT   ,    OUTput   )    ;                   
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00017 
-00018     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00017 	 PROgram    suMAR (input);     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>	 PROgram    suMAR (input);      
+00018 PROgram    suMAR (output);       	 
+00019 PROgram    suMAR12$ (output);  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram    suMAR12$ (output);   
+00020 PROgram    suMAR ;
+00021 PROgram    suMAR 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00019     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00020         PARA LA VARIABLE LLAMADA CUANTOS
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00021   }   
-		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>PROgram    suMAR  
 00022 
-00023   {   
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00024     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+00023     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00025        SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO     
+00024     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00026           PARA LA VARIABLE LLAMADA CUANTOS
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR  
+00025         PARA LA VARIABLE LLAMADA CUANTOS
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>        PARA LA VARIABLE LLAMADA CUANTOS 
+00026   }   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  }    
 00027 
-00028   (*
+00028   {   
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  {    
 00029     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
-00030     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR   
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00031     PARA LA VARIABLE LLAMADA CUANTOS  
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00032   }
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00033 
-00034   {
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00035     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00036     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00037     PARA LA VARIABLE LLAMADA CUANTOS   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
+00030        SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR 
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>       SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR  
+00031           PARA LA VARIABLE LLAMADA CUANTOS
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>          PARA LA VARIABLE LLAMADA CUANTOS 
+00032 
+00033   (*
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  (* 
+00034     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO  
+00035     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+00036     PARA LA VARIABLE LLAMADA CUANTOS  
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    PARA LA VARIABLE LLAMADA CUANTOS   
+00037   }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  } 
+00038 
+00039   {
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  { 
+00040     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO   
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00041     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00038   *)
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR     
+00042     PARA LA VARIABLE LLAMADA CUANTOS   
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00039 
-00040   {       
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00041     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
-00042     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
-00043     PARA LA VARIABLE LLAMADA CUANTOS   
-00044   }    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    PARA LA VARIABLE LLAMADA CUANTOS    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    PARA LA VARIABLE LLAMADA CUANTOS    
+00043   *)
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00045 
-00046 Indica que se va a usar la unidad o libreria de pantalla *)      
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  *) 
+00044 
+00045   {       
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00047 (* Indica que se     va a usar la unidad o libreria de pantalla      
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  {        
+00046     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
+00047     SE EJECUTA EL PROGRAMA Y SE PIDE UN VALOR    
+00048     PARA LA VARIABLE LLAMADA CUANTOS   
+00049   }    
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00048 {    Indica que se va a usar la unidad o libreria de pantalla       *)    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  }     
+00050 
+00051 Indica que se va a usar la unidad o libreria de pantalla *)      
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00049 (*     Indica que se va a usar la unidad o libreria de pantalla     }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>Indica que se va a usar la unidad o libreria de pantalla *)       
+00052 (* Indica que se     va a usar la unidad o libreria de pantalla      
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00050 {*     Indica que se va a usar la unidad o libreria de pantalla     }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(* Indica que se     va a usar la unidad o libreria de pantalla       
+00053 {    Indica que se va a usar la unidad o libreria de pantalla       *)    
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00051 (*     Indica que se va a usar la unidad o libreria de pantalla     *}
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>{    Indica que se va a usar la unidad o libreria de pantalla       *)     
+00054 (*     Indica que se va a usar la unidad o libreria de pantalla     }
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00052 
-00053 (* Indica que se va a usar la unidad o libreria de pantalla *)
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(*     Indica que se va a usar la unidad o libreria de pantalla     } 
+00055 {*     Indica que se va a usar la unidad o libreria de pantalla     }
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00054      USESxyz     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>{*     Indica que se va a usar la unidad o libreria de pantalla     } 
+00056 (*     Indica que se va a usar la unidad o libreria de pantalla     *}
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00055      USes      
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(*     Indica que se va a usar la unidad o libreria de pantalla     *} 
+00057 
+00058 (* Indica que se va a usar la unidad o libreria de pantalla *)
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(* Indica que se va a usar la unidad o libreria de pantalla *) 
+00059      USESxyz     
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>     USESxyz      
+00060      USes      
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>     USes       
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00056   crt123    ;       
-00057   crt;
-00058 
-00059 V   
+00061   crt123    ;       
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  crt123    ;        
+00062   crt;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  crt; 
+00063 
+00064 V   
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00060 Va    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>V    
+00065 Va    
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00061 var    ;    
-00062 var
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>Va     
+00066 var    ;    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>var    ;     
+00067 var
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00063   1CONTAdor901234567$%   =   iINTEGER;   
-00064   CONTAdor901234567$% = iINTEGER    ;
-00065   CONTAdor901234567 = iINTEGER    ;    
-00066   CONTAdor901234567 =   iINTEGER    ;
-00067   CONTAdor901234567 :    iINTEGER;    
-00068   CONTAdor:    INTEGER    ;
-00069   CUANTOS:      integer        ;     
-00070   WHILE:      integer        ;     
-00071   A, B, C:    INTEGER;
-00072 
-00073   contador:   rREal;    
-00074   contador:       REal;  
-00075   numero:       REal      ;
-00076   SUma    :        reAL     ;
-00077   TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155}
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>var 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>var 
+00068   1CONTAdor901234567$%   =   iINTEGER;   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  1CONTAdor901234567$%   =   iINTEGER;    
+00069   CONTAdor901234567$% = iINTEGER    ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CONTAdor901234567$% = iINTEGER    ; 
+00070   CONTAdor901234567 = iINTEGER    ;    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CONTAdor901234567 = iINTEGER    ;     
+00071   CONTAdor901234567 =   iINTEGER    ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CONTAdor901234567 =   iINTEGER    ; 
+00072   CONTAdor901234567 :    iINTEGER;    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CONTAdor901234567 :    iINTEGER;     
+00073   CONTAdor:    INTEGER    ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CONTAdor:    INTEGER    ; 
+00074   CUANTOS:      integer        ;     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CUANTOS:      integer        ;      
+00075   WHILE:      integer        ;     
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WHILE:      integer        ;      
+00076   A, B, C:    INTEGER;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  A, B, C:    INTEGER; 
+00077 
+00078   contador:   rREal;    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  contador:   rREal;     
+00079   contador:       REal;  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  contador:       REal;   
+00080   numero:       REal      ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  numero:       REal      ; 
+00081   SUma    :        reAL     ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  SUma    :        reAL     ; 
+00082   TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155}
 		ERROR 0001: Linea con mas de los caracteres soportados 
-00078   TEcla:        CHarr    ;   
-00079   TEcla       :    CHar    ;    
-00080   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEcla:    CHarr; {TIENE MAS DE 150 CARACTERES                                                                                                        155} 
+00083   TEcla:        CHarr    ;   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEcla:        CHarr    ;    
+00084   TEcla       :    CHar    ;    
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEcla       :    CHar    ;     
+00085   
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00081   faltapunto1     INTEGER
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>   
+00086   faltapunto1     INTEGER
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00082   faltapunto2     REAL
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  faltapunto1     INTEGER 
+00087   faltapunto2     REAL
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00083   FALTAPUNTO3     CHAR
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  faltapunto2     REAL 
+00088   FALTAPUNTO3     CHAR
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00084 
-00085   faltapunto1     INTEGER  ;
-00086   faltapunto234     REAL;
-00087   FALTAPUNTO345xyz     CHAR;
-00088   FALTAPUNTO345xy     CHAR;
-00089   
-00090   
-00091 var
-00092 
-00093   
-00094 (* INICIO DEL PROGRAMA SUMAR *)
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00095 
-00096 BEgin
-		ERROR 0002: No se encontro Punto y Coma (;) 
-00097   CLRscr; { LIMPIA LA PANTALLA }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  FALTAPUNTO3     CHAR 
+00089 
+00090   faltapunto1     INTEGER  ;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  faltapunto1     INTEGER  ; 
+00091   faltapunto234     REAL;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  faltapunto234     REAL; 
+00092   FALTAPUNTO345xyz     CHAR;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  FALTAPUNTO345xyz     CHAR; 
+00093   FALTAPUNTO345xy     CHAR;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  FALTAPUNTO345xy     CHAR; 
+00094   
+00095   
+00096 var
+00097 
 00098   
-00099   { ENTRADA DE DATOS }
+00099 (* INICIO DEL PROGRAMA SUMAR *)
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(* INICIO DEL PROGRAMA SUMAR *) 
 00100 
-00101   TEXTcolor( YELLOW );           { COLOR AMARILLO }
-00102   textBACKGROUND( RED );         { FONDO ROJO }
-00103   gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA }
-00104 
-00105   WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' );
-00106   DElaY( 1000 );  (* HACE UNA PAUSA *)
-00107   READln ( cuantoS );
-00108   wriTELN;  
-00109   WRITEln ( OUTPUT );  
+00101 BEgin
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>BEgin 
+00102   CLRscr; { LIMPIA LA PANTALLA }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CLRscr; { LIMPIA LA PANTALLA } 
+00103   
+00104   { ENTRADA DE DATOS }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  { ENTRADA DE DATOS } 
+00105 
+00106   TEXTcolor( YELLOW );           { COLOR AMARILLO }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEXTcolor( YELLOW );           { COLOR AMARILLO } 
+00107   textBACKGROUND( RED );         { FONDO ROJO }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  textBACKGROUND( RED );         { FONDO ROJO } 
+00108   gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA } 
+00109 
+00110   WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' ); 
+00111   DElaY( 1000 );  (* HACE UNA PAUSA *)
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  DElaY( 1000 );  (* HACE UNA PAUSA *) 
+00112   READln ( cuantoS );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  READln ( cuantoS ); 
+00113   wriTELN;  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  wriTELN;   
+00114   WRITEln ( OUTPUT );  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WRITEln ( OUTPUT );   
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00110   TEXTcolor ( white );           { COLOR BLANCO }
-00111   TEXTBACKGROUND( blaCK);         { FONDO NEGRO }  
-00112 
-00113   (* INICIALIZACIÓN DE VARIABLES 
+00115   TEXTcolor ( white );           { COLOR BLANCO }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEXTcolor ( white );           { COLOR BLANCO } 
+00116   TEXTBACKGROUND( blaCK);         { FONDO NEGRO }  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEXTBACKGROUND( blaCK);         { FONDO NEGRO }   
+00117 
+00118   (* INICIALIZACIÓN DE VARIABLES 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00114      QUE NECESITA EL PROGRAMA PARA REALIZAR SUS CALCULOS *)
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  (* INICIALIZACIÓN DE VARIABLES  
+00119      QUE NECESITA EL PROGRAMA PARA REALIZAR SUS CALCULOS *)
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00115 
-00116   contador := 0;
-00117   Suma     := 0.0;
-00118 
-00119   { INICIO DEL CICLO }
-		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>     QUE NECESITA EL PROGRAMA PARA REALIZAR SUS CALCULOS *) 
 00120 
-00121   soUND( 220 ); { SONIDO DE FRECUENCIA 220 HZ }
-00122   wrITELN ( OUTPUT );
-		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00123   writeLN ( 'SUMANDO...' );
-00124   writeln;
+00121   contador := 0;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  contador := 0; 
+00122   Suma     := 0.0;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  Suma     := 0.0; 
+00123 
+00124   { INICIO DEL CICLO }
+		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  { INICIO DEL CICLO } 
 00125 
-00126   REPeat
+00126   soUND( 220 ); { SONIDO DE FRECUENCIA 220 HZ }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  soUND( 220 ); { SONIDO DE FRECUENCIA 220 HZ } 
+00127   wrITELN ( OUTPUT );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  wrITELN ( OUTPUT ); 
+		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
+00128   writeLN ( 'SUMANDO...' );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  writeLN ( 'SUMANDO...' ); 
+00129   writeln;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  writeln; 
+00130 
+00131   REPeat
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00127     WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' );
-00128     readln ( numERO );
-00129     suMA     := SUma + NUMero;
-00130     contaDOR := CONTAdor + 1;
-00131   UNtil CONtaDOR >= CUanTOS;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  REPeat 
+00132     WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' ); 
+00133     readln ( numERO );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    readln ( numERO ); 
+00134     suMA     := SUma + NUMero;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    suMA     := SUma + NUMero; 
+00135     contaDOR := CONTAdor + 1;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>    contaDOR := CONTAdor + 1; 
+00136   UNtil CONtaDOR >= CUanTOS;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  UNtil CONtaDOR >= CUanTOS; 
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00132 
-00133   TEXTbaCKGROUND ( BLue );       { CON FONDO AZUL }
-00134   WRIteLN;
-00135   WRITEln ( OUtpUT );
+00137 
+00138   TEXTbaCKGROUND ( BLue );       { CON FONDO AZUL }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEXTbaCKGROUND ( BLue );       { CON FONDO AZUL } 
+00139   WRIteLN;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WRIteLN; 
+00140   WRITEln ( OUtpUT );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WRITEln ( OUtpUT ); 
 		MENSAJE se encontro Reservada que no pertenece a PAZCAL 
-00136   WriTELN ( OUTPut, 'SUMA DE LOS NUMEROS; PULSE UNA TECLA PARA TERMINAR:' );
-00137   WRIteLN ( SumA: 7:2 );
-00138   TecLA := readKEY;              { ESPERAMOS QUE SE PULSE UNA TECLA }
-00139   writeln ( output, 'ADIOS :-)' );
-00140   deLAY( 2000 );                 { PAUSA ANTES DE ACABAR }
-00141   TExtCOLOR( LIGHTGRAY );        { COLORES POR DEFECTO DEL CMD/DOS }
-00142   TEXTBACKground( blaCK );       { Y BORRAMOS LA PANTALLA }
-00143   CLRscr;
-00144 EnD .
+00141   WriTELN ( OUTPut, 'SUMA DE LOS NUMEROS; PULSE UNA TECLA PARA TERMINAR:' );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WriTELN ( OUTPut, 'SUMA DE LOS NUMEROS; PULSE UNA TECLA PARA TERMINAR:' ); 
+00142   WRIteLN ( SumA: 7:2 );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  WRIteLN ( SumA: 7:2 ); 
+00143   TecLA := readKEY;              { ESPERAMOS QUE SE PULSE UNA TECLA }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TecLA := readKEY;              { ESPERAMOS QUE SE PULSE UNA TECLA } 
+00144   writeln ( output, 'ADIOS :-)' );
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  writeln ( output, 'ADIOS :-)' ); 
+00145   deLAY( 2000 );                 { PAUSA ANTES DE ACABAR }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  deLAY( 2000 );                 { PAUSA ANTES DE ACABAR } 
+00146   TExtCOLOR( LIGHTGRAY );        { COLORES POR DEFECTO DEL CMD/DOS }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TExtCOLOR( LIGHTGRAY );        { COLORES POR DEFECTO DEL CMD/DOS } 
+00147   TEXTBACKground( blaCK );       { Y BORRAMOS LA PANTALLA }
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  TEXTBACKground( blaCK );       { Y BORRAMOS LA PANTALLA } 
+00148   CLRscr;
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  CLRscr; 
+00149 EnD .
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00145 
-00146 (* FIN DEL PROGRAMA SUMAR *)
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>EnD . 
+00150 
+00151 (* FIN DEL PROGRAMA SUMAR *)
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00147  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>(* FIN DEL PROGRAMA SUMAR *) 
+00152  
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00148   
-00149                 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>  
+00153   
+00154                 
 		ERROR 0002: No se encontro Punto y Coma (;) 
-00150                                  
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>                 
+00155                                  
 		ERROR 0002: No se encontro Punto y Coma (;) 
+		ERROR 0005: Error en la estructura del la instruccion PROGRAM =>                                  
