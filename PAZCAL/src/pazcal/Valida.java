@@ -7,6 +7,7 @@ package pazcal;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -29,7 +30,7 @@ public class Valida {
         LLAVE_DER {
             @Override
             public String toString() {
-                return "};";
+                return "}";
             }
         ;
         },
@@ -51,20 +52,21 @@ public class Valida {
     }
 
 
-    private HashMap<Integer, String> posicionComentarios = new HashMap<>();
+    private ArrayList<Dato> encuentraComentarios = new ArrayList<>();
+    private ArrayList<Dato> posicionErroresComentarios = new ArrayList<>();
     private ArrayList<Integer> posicionTamanoLinea = new ArrayList<>();
     private ArrayList<Integer> posicionPuntoComa = new ArrayList<>();
     private ArrayList<Integer> posicionProgram = new ArrayList<>();
     private ArrayList<Integer> posicionVar = new ArrayList<>();
     private ArrayList<Integer> posicionDefVar = new ArrayList<>();
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
-    private HashMap<Integer, String> noReservadas = new HashMap<>();
+    private ArrayList <Dato> noReservadas = new ArrayList<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
     private ArrayList<Integer> posicionReadLn = new ArrayList<>();
     private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
-    protected boolean[] esProgramaValido = new boolean[10]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
+    protected boolean[] esProgramaValido = new boolean[11]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
     //y solo generar archivo errores y no llamar pascal.
 
     public Valida() {
@@ -96,7 +98,7 @@ public class Valida {
                 this.esProgramaValido[6] = ValidaBeginEnd();
                 this.esProgramaValido[7] = ValidarReadLn();
                 this.esProgramaValido[8] = ValidarWriteLn();
-                this.esProgramaValido[9] = (EncuentraNoReservadas() != null || EncuentraNoReservadas() != "EXCEPTION");
+                this.esProgramaValido[9] = (EncuentraNoReservadas() != null);
 
                 evalua = false;
             }
@@ -136,9 +138,9 @@ public class Valida {
                         } else {
                             System.out.println("COMENTARIOS........ [ERROR]");
 
-                            this.posicionComentarios.keySet().forEach((e) -> {
+                            this.encuentraComentarios.forEach((e) -> {
                                 String msgE = "\t\tERROR 0004: Validar el formato del comentario  ";
-                                MensajeError(msgE, (e - 1));
+//                                MensajeError(msgE, (e - 1));
                             });
 
                         }
@@ -228,11 +230,11 @@ public class Valida {
                             System.out.println("ENCUENTRA NO RESERVADAS........ [OK]");
                         } else {
                             System.out.println("ENCUENTRA NO RESERVADAS........ [ERROR]");
-                            this.posicionComentarios.keySet().forEach((e) -> {
+                            this.noReservadas.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0011: " + this.noReservadas.get(e).toUpperCase() + " No es una palabra Reservada PASCAL o PAZCAL ";
+                                String msgE = "\t\tERROR 0000: " + e.dato + " No es una palabra Reservada PASCAL o PAZCAL ";
 
-                                MensajeError(msgE, (e - 1));
+                                MensajeError(msgE, (e.numeroLinea - 1));
                             });
                         }
                         break;
@@ -391,6 +393,7 @@ public class Valida {
                     if (reservada != null) {
                         for (String e : this.cargaInformacion.codigoArchivo) {
                             boolean esReservada = false;
+                            
                             String[] divide = e.split("\\s");
                             for (int i = 0; i < divide.length; i++) {
                                 Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
@@ -400,7 +403,7 @@ public class Valida {
 
                                 if (!esReservada) {
                                     resultado = divide[i];
-                                    this.noReservadas.put(this.cargaInformacion.codigoArchivo.indexOf(e), resultado);
+                                    this.noReservadas.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e)+1, resultado));
 //                                    this.noReservadas.add(this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
                                 }
                             }
@@ -412,7 +415,7 @@ public class Valida {
 
                 continua = false;
             }
-            //System.out.println(this.posicionReservadas);
+            System.out.println(" Resultado NO RESERVADAS"+ resultado);
 
             //System.out.println("Se encontraron " + cont + " reservadas");
             return resultado;
@@ -752,12 +755,12 @@ public class Valida {
         try {
 
             boolean resultado = false;
-            boolean flagParzq =false;
-            boolean flagParDer =false;
-            boolean flagLlIz =false;
-            boolean flagLlDer =false;
-            
-            String llaveDer = null, llaveIzq = null, parIzq = null, parDer = null;
+            boolean flagParIzq = false;
+            boolean flagParDer = false;
+            boolean flagLlIz = false;
+            boolean flagLlDer = false;
+
+            //String llaveDer = null, llaveIzq = null, parIzq = null, parDer = null;
             int nLn = 0;
             int llaveD = 0;
             int llaveI = 0;
@@ -779,33 +782,60 @@ public class Valida {
 
                         if (arr[i].equalsIgnoreCase(p.toString())) {
                             //almacena donde se encuentran los parentesis o llaves 
-                            this.posicionComentarios.put(nLn, p.name());
-
+                            this.encuentraComentarios.add(new Dato(nLn, p.name()));
 
                         }
 
                     }
 
                 }
+
             }
 
-            int sumaLLaves = 0, sumaParentesis = 0;
-            sumaLLaves = llaveI + llaveD;
-            sumaParentesis = parD + parI;
-            boolean esParLlave = (sumaLLaves % 2 == 0);
-            boolean esParParen = (sumaParentesis % 2 == 0);
+            int tamano = this.encuentraComentarios.size() - 1;
+            boolean mismaLinea = false;
+            for (int i = 0; i < tamano; i++) {
 
-            if (!esParLlave || !esParParen) {
+                mismaLinea = this.encuentraComentarios.get(i).numeroLinea == this.encuentraComentarios.get(i + 1).numeroLinea;
 
-                // System.out.println(hileraL);
-                //  MensajeError(hileraL, posicionL);
-                resultado = false;
+                if (mismaLinea) {
+
+                    if (this.encuentraComentarios.get(i).dato.equalsIgnoreCase(PARENTESIS.LLAVE_IZQ.name())) {
+                        if (this.encuentraComentarios.get(i + 1).dato.equalsIgnoreCase(PARENTESIS.LLAVE_DER.name())) {
+
+                        } else {
+                            this.posicionErroresComentarios.add(new Dato(this.encuentraComentarios.get(i).numeroLinea, "NO SE PUEDE COMBINAR FORMATO DE COMENTARIOS de TIPO LLAVE "));
+                        }
+
+                    }
+                    if (this.encuentraComentarios.get(i).dato.equalsIgnoreCase(PARENTESIS.PARENTESIS_IZQ.name())) {
+                        if (this.encuentraComentarios.get(i + 1).dato.equalsIgnoreCase(PARENTESIS.PARENTESIS_DER.name())) {
+
+                        } else {
+                            this.posicionErroresComentarios.add(new Dato(this.encuentraComentarios.get(i).numeroLinea, "NO SE PUEDE COMBINAR FORMATO DE COMENTARIOS DE TIPO PARENTESIS "));
+                        }
+
+                    }
+                } 
+
             }
+
+            
+            this.posicionErroresComentarios.forEach(
+                    (e) -> {
+                        System.out.println(this.posicionErroresComentarios.indexOf(e) + "  " + e.toString());
+                    }
+            );
+//            this.encuentraComentarios.forEach(
+//                    (e) -> {
+//                        System.out.println(this.encuentraComentarios.indexOf(e) + "  " + e.toString());
+//                    }
+//            );
 
             return resultado;
 
         } catch (Exception e) {
-            System.out.println("Clase Valida-> ValidaProgram()=> " + e.getMessage());
+            System.out.println("Clase Valida-> EncuentraComentarios()=> " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -842,8 +872,8 @@ public class Valida {
             });
             int val = 0;
 
-            this.posicionComentarios.keySet().forEach((e) -> {
-                System.out.println("Posicion-> " + e + " Tipo LLave-> " + this.posicionComentarios.get(e));
+            this.encuentraComentarios.forEach((e) -> {
+                // System.out.println("Posicion-> " + e + " Tipo LLave-> " + this.posicionComentarios.get(e));
             });
 
             this.posicionProgram.forEach((e) -> {
