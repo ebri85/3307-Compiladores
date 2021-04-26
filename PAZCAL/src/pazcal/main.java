@@ -53,7 +53,7 @@ public class main {
              }else{
                  generador.Compila();  
              }
-            generador.Compila();           
+            //generador.Compila();           
 
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());
