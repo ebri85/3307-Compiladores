@@ -49,11 +49,11 @@ public class main {
              if(esProgramaValido>0){
                  System.out.println("\n\n\t\t****DE MOMENTO VOY A PASAR EL ARCHIVO AUNQUE TIENE ERRORES PERO NO DEBERIA****\nCOMPILANDO....");
                  System.out.println("\nQUE PASCAL DECIDA SI LA APLIACION FUNCIONA");
-               //  generador.Compila();  
+                 generador.Compila();  
              }else{
-                // generador.Compila();  
+                 generador.Compila();  
              }
-            //generador.Compila();           
+            generador.Compila();           
 
         } catch (Exception e) {
             System.out.println("Clase Main -> Ejecuta()=> " + e.getMessage());

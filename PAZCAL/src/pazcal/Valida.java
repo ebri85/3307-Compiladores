@@ -67,8 +67,9 @@ public class Valida {
     private ArrayList<Dato> noReservadas = new ArrayList<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
     private ArrayList<Dato> posicionReadLn = new ArrayList<>();
-    private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
+    private ArrayList<Dato> posicionWriteLn = new ArrayList<>();
     private ArrayList<Variable> varCreadas = new ArrayList<>();
+    private ArrayList<Dato> posicionRepeat = new ArrayList<>();
 
     protected CargaInformacion cargaInformacion;
     protected boolean[] esProgramaValido = new boolean[11]; //cuando se genera un error que es de PAZCAL el valor debe de ser false para no compilar 
@@ -104,6 +105,7 @@ public class Valida {
                 this.esProgramaValido[7] = ValidarReadLn();
                 this.esProgramaValido[8] = ValidarWriteLn();
                 this.esProgramaValido[9] = EncuentraNoReservadas();
+                this.esProgramaValido[10] = ValidaRepeat();
 
                 evalua = false;
             }
@@ -231,9 +233,9 @@ public class Valida {
                             System.out.println("FORMATO WRITELN........ [ERROR]");
                             this.posicionWriteLn.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0010: Error en la estructura del la instruccion WRITELN ";
+                                String msgE = "\t\tERROR 0010: Error en la estructura del la instruccion WRITELN " + e.dato;
 
-                                MensajeError(msgE, (e - 1));
+                                MensajeError(msgE, (e.numeroLinea - 1));
                             });
                         }
                     case 9:
@@ -244,6 +246,19 @@ public class Valida {
                             this.noReservadas.forEach((e) -> {
 
                                 String msgE = "\t\tERROR 0000: " + e.dato + " No es una palabra Reservada PASCAL o PAZCAL ";
+
+                                MensajeError(msgE, (e.numeroLinea - 1));
+                            });
+                        }
+                        break;
+                    case 10:
+                        if (this.esProgramaValido[i]) {
+                            System.out.println("FORMATO REPEAT........ [OK]");
+                        } else {
+                            System.out.println("FORMATO REPEAT........ [ERROR]");
+                            this.posicionRepeat.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0011: " + e.dato ;
 
                                 MensajeError(msgE, (e.numeroLinea - 1));
                             });
@@ -322,10 +337,10 @@ public class Valida {
             for (String e : this.cargaInformacion.codigoArchivo) {
                 boolean encontro = false;
                 if (!e.isEmpty()) {
-                    String[] divide = e.split("\\s+");
+                    String[] divide = e.toUpperCase().split("\\s+");
 
                     encontro = e.trim().contains(";");
-                    if (!e.matches("VAR|BEGIN|END\\s+\\.|\\{\\.*\\}|\\(\\*\\.*\\*\\)")) {
+                    if (!e.matches("REPEAT|VAR|BEGIN|END\\s+\\.|\\{\\.*\\}|\\(\\*\\.*\\*\\)")) {
                         if (encontro == false) {
                             nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
                             this.posicionPuntoComa.add(nLn);
@@ -405,7 +420,7 @@ public class Valida {
                 //   Collections.sort(noReservadas);
                 continua = false;
             }
-            System.out.println(" Resultado NO RESERVADAS" + resultado + "esta vacio " + this.noReservadas.isEmpty());
+           // System.out.println(" Resultado NO RESERVADAS" + resultado + "esta vacio " + this.noReservadas.isEmpty());
 
             //System.out.println("Se encontraron " + cont + " reservadas");
             return this.noReservadas.isEmpty();
@@ -494,9 +509,9 @@ public class Valida {
                                     if (e.toUpperCase().contains("INPUT")) {
                                         this.posicionReadLn.add(new Dato(posicion, "PROBLEMA de SINTAXIS en READLN"));
                                     } else {
-                                        this.varCreadas.forEach((j)->{
-                                            if(!e.toUpperCase().contains(j.tipoDato.toUpperCase())){
-                                                 this.posicionReadLn.add(new Dato(posicion, "VARIABLE NO EXISTE ["+ e+"]"));
+                                        this.varCreadas.forEach((j) -> {
+                                            if (!e.toUpperCase().contains(j.tipoDato.toUpperCase())) {
+                                                this.posicionReadLn.add(new Dato(posicion, "VARIABLE NO EXISTE [" + e + "]"));
                                             }
                                         });
                                     }
@@ -527,7 +542,7 @@ public class Valida {
             while (continua) {
                 //String a=   "(writeln)\\*\\;|((writeln)\\s*\\(\\s*(output)\\s*\\)\\;)|((writeln)\\s*\\(\\s*(output)\\s*,\\'\\s*[a-z]{1,15}\\s*\\'\\)\\;)|((writeln)\\s*\\(\\s*([a-z]{1,15}),\\s*\\)\\;)";
 
-                String patron = "(writeln)\\*\\;|((writeln)\\s*\\(\\s*(output)\\s*\\)\\;)|((writeln)\\s*\\(\\s*(output)\\s*,\\'\\s*[a-z]{1,15}\\s*\\'\\)\\;)|((writeln)\\s*\\(\\s*([a-z]{1,15}),\\s*\\)\\;)";
+                String patron = "(writeln)\\s*\\;|((writeln)\\s*\\(\\s*(output)\\s*\\)\\;)|((writeln)\\s*\\(\\s*(output)\\s*,\\'\\s*[a-z]{1,15}\\s*\\'\\)\\;)|((writeln)\\s*\\(\\s*([a-z]{1,15}),\\s*\\)\\;)";
                 Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
 
                 this.cargaInformacion.codigoArchivo.forEach((String e) -> {
@@ -538,18 +553,30 @@ public class Valida {
                             boolean resultado = true;
                             Matcher mtch = ptr.matcher(e);
                             resultado = mtch.find();
-                            System.out.println("Evaluando WRITELN-> " + resultado);
+//                            if (mtch.find()) {
+//                                System.out.println(mtch.group(0));
+//                            }
 
+                            //System.out.println("Evaluando WRITELN-> " + resultado);
                             if (!e.isEmpty()) {
                                 if (resultado == false) {
-                                    this.posicionWriteLn.add(posicion);
+                                    if (e.toUpperCase().contains("OUTPUT")) {
+                                        this.posicionWriteLn.add(new Dato(posicion, "PROBLEMA de SINTAXIS en WRITELN"));
+                                    } else {
+                                        this.varCreadas.forEach((j) -> {
+                                            if (!e.toUpperCase().contains(j.tipoDato.toUpperCase())) {
+                                                this.posicionWriteLn.add(new Dato(posicion, "VARIABLE NO EXISTE [" + e + "]"));
+                                            }
+                                        });
+                                    }
+
                                 }
                             }
                         }
                     }
 
                 });
-                Collections.sort(posicionWriteLn);
+                //Collections.sort(posicionWriteLn);
                 continua = false;
             }
 
@@ -607,7 +634,7 @@ public class Valida {
                 // Collections.sort(posicionProgram);
                 continua = false;
             }
-            System.out.println(this.posicionProgram.isEmpty());
+          //  System.out.println(this.posicionProgram.isEmpty());
             return this.posicionProgram.isEmpty();
 
         } catch (Exception e) {
@@ -701,8 +728,7 @@ public class Valida {
             }
 
             //Collections.sort(posicionVar);
-            System.out.println("Esta Vacia posDefVar " + this.posicionDefVar.isEmpty());
-
+            //  System.out.println("Esta Vacia posDefVar " + this.posicionDefVar.isEmpty());
             return this.posicionDefVar.isEmpty() || this.posicionVar.isEmpty();
 
         } catch (Exception e) {
@@ -710,6 +736,80 @@ public class Valida {
             e.getCause();
             return false;
         }
+    }
+
+    private boolean ValidaRepeat() {
+        try {
+            int posUntil = 0;
+            int posRepeat = 0;
+            //ArrayList<String> temp = new ArrayList<>();
+            boolean resultado1 = false;
+            boolean resultado2 = false;
+            for (String until : this.cargaInformacion.codigoArchivo) {
+//UNTIL (ANO = MAXANOS);
+                if (!until.isEmpty()) {
+                    String[] arr = until.split("\\s+");
+
+                    for (int i = 0; i < arr.length; i++) {
+                        if (arr[i] != null) {
+                            if (arr[i].equalsIgnoreCase("until")) {
+                                if (posUntil == 0) {
+                                    posUntil = this.cargaInformacion.codigoArchivo.indexOf(until) + 1;
+                                    String patron2 = "(until\\s+\\(\\s+([a-z]{15})\\s+(=|<>|<|>|>=|<=)\\s+([a-z]{15})\\s+\\)\\;|(until\\s+\\s+([a-z]{15})\\s+(=|<>|<|>|>=|<=)\\s+([a-z]{15})\\s+\\;))";
+                                    // String patron2 = "UNTIL";
+                                    //Pattern ptr2 = Pattern.compile("UNTIL", Pattern.CASE_INSENSITIVE);
+                                    Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
+                                    Matcher mtch2 = ptr2.matcher(until);
+                                    resultado2 = mtch2.find();
+                                    
+                                    if(!mtch2.find()){
+                                         this.posicionRepeat.add(new Dato(posUntil, "FORMATO NO CORRECTO PARA LA INSTRUCCION UNTIL"));
+                                    }
+                                        
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            for (String e : this.cargaInformacion.codigoArchivo) {
+                String patron = "REPEAT";
+
+                Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
+
+                int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+
+                Matcher mtch1 = ptr1.matcher(e);
+
+                resultado1 = mtch1.find();
+
+                if (!e.isEmpty()) {
+                    if (resultado1) {
+                        if (posRepeat == 0) {
+                            posRepeat = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                            // System.out.println(" Begin"+posBegin);
+                            // this.posBegin = posBegin;
+                        } else {
+                            this.posicionRepeat.add(new Dato(posRepeat, "PAZCAL NO PERMITE OTRO REPEAT ANIDADO"));
+                        }
+
+                    }
+
+                }
+
+            }
+
+           // System.out.println("POS REPEAT " + posRepeat + " POS UNTIL " + posUntil);
+
+            return this.posicionRepeat.isEmpty();
+        } catch (Exception e) {
+            System.out.println("Clase Valida-> ValidaRepeat()=> " + e.getMessage());
+            e.getCause();
+            return false;
+        }
+
     }
 
     private boolean ValidaBeginEnd() {//Solo esta validando de momento si End esta antes ubicado que Begin
@@ -734,7 +834,7 @@ public class Valida {
                             posEnd = this.cargaInformacion.codigoArchivo.indexOf(end) + 1;
 
                             this.posEnd = posEnd;
-                            System.out.println(" End" + posEnd);
+                           // System.out.println(" End" + posEnd);
                         }
 
                     }
