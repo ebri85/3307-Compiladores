@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,7 +66,7 @@ public class Valida {
     private ArrayList<Integer> posicionReservadas = new ArrayList<>();
     private ArrayList<Dato> noReservadas = new ArrayList<>();
     private ArrayList<Integer> posicionBeginEnd = new ArrayList<>();
-    private ArrayList<Integer> posicionReadLn = new ArrayList<>();
+    private ArrayList<Dato> posicionReadLn = new ArrayList<>();
     private ArrayList<Integer> posicionWriteLn = new ArrayList<>();
     private ArrayList<Variable> varCreadas = new ArrayList<>();
 
@@ -174,6 +175,12 @@ public class Valida {
 
                                 MensajeError(msgE, (e.numeroLinea - 1));
                             });
+                            this.posicionVar.forEach((e) -> {
+
+                                String msgE = "\t\tERROR 0006: Error en la estructura del la instruccion VAR " + e.dato;
+
+                                MensajeError(msgE, (e.numeroLinea - 1));
+                            });
                         }
                         break;
                     case 5:
@@ -211,9 +218,9 @@ public class Valida {
                             System.out.println("FORMATO READLN........ [ERROR]");
                             this.posicionReadLn.forEach((e) -> {
 
-                                String msgE = "\t\tERROR 0009: Error en la estructura del la instruccion READLN ";
+                                String msgE = "\t\tERROR 0009: Error en la estructura del la instruccion READLN " + e.dato;
 
-                                MensajeError(msgE, (e - 1));
+                                MensajeError(msgE, (e.numeroLinea - 1));
                             });
                         }
                         break;
@@ -315,12 +322,14 @@ public class Valida {
             for (String e : this.cargaInformacion.codigoArchivo) {
                 boolean encontro = false;
                 if (!e.isEmpty()) {
-                    String[] divide = e.split("\\s");
+                    String[] divide = e.split("\\s+");
 
                     encontro = e.trim().contains(";");
-                    if (encontro == false) {
-                        nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-                        this.posicionPuntoComa.add(nLn);
+                    if (!e.matches("VAR|BEGIN|END\\s+\\.|\\{\\.*\\}|\\(\\*\\.*\\*\\)")) {
+                        if (encontro == false) {
+                            nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                            this.posicionPuntoComa.add(nLn);
+                        }
                     }
                 }
 
@@ -357,7 +366,7 @@ public class Valida {
                                 if (reservada != null) {
                                     boolean esReservada = false;
 
-                                    if (divide[i].toLowerCase().matches("[a-z]{3,15}")) {
+                                    if (divide[i].toLowerCase().matches("[a-z]{1,15}")) {
                                         nLn = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
                                         Pattern ptr = Pattern.compile(reservada, Pattern.CASE_INSENSITIVE);
                                         Matcher mt = ptr.matcher(divide[i]);
@@ -369,9 +378,11 @@ public class Valida {
                                             //System.out.println("RESERVADA: " + reservada + "  Palabra: " + divide[i] + " esReservada: " + esReservada);
                                             resultado = divide[i];
                                             // System.out.println(resultado);
+                                            // this.noReservadas.add(new Dato(nLn, resultado));
 
+                                        } else {
+                                            sonReservadas.add(esReservada);
                                         }
-                                        sonReservadas.add(esReservada);
 
                                     }
 
@@ -379,6 +390,7 @@ public class Valida {
                             }
 
                         }
+
                         if (!sonReservadas.contains(true)) {
                             if (resultado != null) {
                                 // System.out.println(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, resultado).toString());
@@ -386,7 +398,6 @@ public class Valida {
 
                             }
                         }
-
                     }
 
                 }
@@ -394,7 +405,7 @@ public class Valida {
                 //   Collections.sort(noReservadas);
                 continua = false;
             }
-            System.out.println(" Resultado NO RESERVADAS" + resultado);
+            System.out.println(" Resultado NO RESERVADAS" + resultado + "esta vacio " + this.noReservadas.isEmpty());
 
             //System.out.println("Se encontraron " + cont + " reservadas");
             return this.noReservadas.isEmpty();
@@ -462,6 +473,7 @@ public class Valida {
             while (continua) {
 
                 String patron = "((readln)\\s*\\(\\s*(input)\\s*,\\s*[a-z]{1,15}\\s*\\)\\s*\\;)|((readln)\\s*\\(\\s*[a-z]{1,15}\\s*\\)\\s*\\;)";
+                // String patron = "((readln\\s*\\((\\s*(input)\\s*,\\s*[a-z]{1,15}\\s*\\)|(\\s*\\(\\s*[a-z]{1,15}\\s*\\))))\\s*\\;)";
                 Pattern ptr = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
 
                 this.cargaInformacion.codigoArchivo.forEach((String e) -> {
@@ -469,21 +481,33 @@ public class Valida {
                     String[] strs = e.split("\\s");
                     for (int i = 0; i < strs.length; i++) {
                         if (strs[i].equalsIgnoreCase("READLN")) {
-                            boolean resultado = true;
+                            boolean resultado = false;
                             Matcher mtch = ptr.matcher(e);
                             resultado = mtch.find();
-                            System.out.println("Evaluando READLN-> " + resultado);
+                            if (mtch.find()) {
+                                System.out.println(mtch.group(0));
+                            }
 
+                            // System.out.println("Evaluando READLN-> " + resultado);
                             if (!e.isEmpty()) {
                                 if (resultado == false) {
-                                    this.posicionReadLn.add(posicion);
+                                    if (e.toUpperCase().contains("INPUT")) {
+                                        this.posicionReadLn.add(new Dato(posicion, "PROBLEMA de SINTAXIS en READLN"));
+                                    } else {
+                                        this.varCreadas.forEach((j)->{
+                                            if(!e.toUpperCase().contains(j.tipoDato.toUpperCase())){
+                                                 this.posicionReadLn.add(new Dato(posicion, "VARIABLE NO EXISTE ["+ e+"]"));
+                                            }
+                                        });
+                                    }
+
                                 }
                             }
                         }
                     }
 
                 });
-                Collections.sort(posicionReadLn);
+                //Collections.sort(posicionReadLn);
                 continua = false;
             }
 
@@ -518,18 +542,18 @@ public class Valida {
 
                             if (!e.isEmpty()) {
                                 if (resultado == false) {
-                                    this.posicionReadLn.add(posicion);
+                                    this.posicionWriteLn.add(posicion);
                                 }
                             }
                         }
                     }
 
                 });
-                Collections.sort(posicionReadLn);
+                Collections.sort(posicionWriteLn);
                 continua = false;
             }
 
-            return this.posicionReadLn.isEmpty();
+            return this.posicionWriteLn.isEmpty();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidarWriteLn()=> " + e.getMessage());
@@ -601,88 +625,85 @@ public class Valida {
 
             Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
             Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
-
             int posVar = 0;
             int posBegin = this.posBegin;
             ArrayList<String> temp = new ArrayList<>();
-            boolean resultado1 = true;
+            boolean encontroVar = false;
             boolean resultado2 = true;
             for (String e : this.cargaInformacion.codigoArchivo) {
-
-                int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-
-                Matcher mtch1 = ptr1.matcher(e);
-                Matcher mtch2 = ptr2.matcher(e);
-
-                resultado1 = mtch1.matches();
-                resultado2 = mtch2.matches();
+                String[] encontrarVar = e.split("\\s+");
 
                 if (!e.isEmpty()) {
-                    if (resultado1) {
-                        posVar = this.cargaInformacion.codigoArchivo.indexOf(e);
+
+                    for (int i = 0; i < encontrarVar.length; i++) {
+                        if (encontrarVar[i] != null) {
+                            if (encontrarVar[i].toLowerCase().matches("var")) {
+                                this.posVar = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                                posVar = this.posVar;
+                                encontroVar = true;
+                            }
+                        }
                     }
 
                 }
-                if (!e.isEmpty()) {
-                    if (resultado2) {
-                        posBegin = this.cargaInformacion.codigoArchivo.indexOf(e);
-                    }
-                }
-                mtch1.reset();
             }
-            while (posVar < posBegin) {
-                temp.add(this.cargaInformacion.codigoArchivo.get(posVar));
-                posVar++;
-            }
+            // System.out.println("posVar " + posVar + "posBegin " + posBegin);
+            List<String> listTemp = this.cargaInformacion.codigoArchivo.subList(this.posVar, posBegin);
+//            System.out.println("IMPRIMIENDO TEMPORAL");
+//            listTemp.forEach((e) -> {
+//
+//                System.out.println(e);
+//            });
 
-            for (String e : temp) {
-                boolean res = true;
+            for (int i = posVar; i < posBegin; i++) {
                 String patronV = "VAR";
                 String patronVariables = "(\\s+(\\w[^\\.\\%]){1,15}:\\s+(INTEGER|CHAR|REAL);)";
-                Pattern ptrVariables = Pattern.compile(patronVariables, Pattern.CASE_INSENSITIVE);
-                Pattern ptrV = Pattern.compile(patronV, Pattern.CASE_INSENSITIVE);
 
+                boolean res = false;
                 boolean esVariable = false;
+                Variable variable = new Variable();
 
-                Matcher mtchV = ptrV.matcher(e);
-                Matcher mtchVariables = ptrVariables.matcher(e);
+                //  System.out.println(e);
+                if (!this.cargaInformacion.codigoArchivo.get(i).isEmpty()) {
+                    // System.out.println("ENTRO AL FOR " + this.cargaInformacion.codigoArchivo.get(i));
 
-                res = mtchV.matches();
-                esVariable = mtchVariables.find();
+                    Pattern ptrVariables = Pattern.compile(patronVariables, Pattern.CASE_INSENSITIVE);
+                    Pattern ptrV = Pattern.compile(patronV, Pattern.CASE_INSENSITIVE);
+                    Matcher mtchV = ptrV.matcher(this.cargaInformacion.codigoArchivo.get(i));
+                    Matcher mtchVariables = ptrVariables.matcher(this.cargaInformacion.codigoArchivo.get(i));
+                    res = mtchV.find();
+                    esVariable = mtchVariables.find();
 
-                if (!e.isEmpty()) {
-                    if (!res) {
-                        System.out.println(res + "  " + e);
-                        this.posicionVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, "Error en formato de Reservada VAR"));
-                    }
-                }
-                if (!e.isEmpty()) {
+                    if (!this.cargaInformacion.codigoArchivo.get(i).isEmpty()) {
 
-                    if (esVariable) {
-                        Variable variable = new Variable();
-                        //System.out.println("esVariable " + esVariable + "  " + e);
-                        String[] arr = e.split(":");
-
-                        variable.nombre = arr[0];
-                        this.varCreadas.add(new Variable(arr[0], arr[1]));
-                        if (!this.varCreadas.contains(variable.nombre)) {
-
-                            this.varCreadas.add(new Variable(arr[0], arr[1]));
-                        } else {
-
-                            this.posicionDefVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, " LA VARIABLE YA EXISTE " + variable.nombre));
+                        if (!res) {
+                            this.posicionVar.add(new Dato(i + 1, "Error en formato RESERVADA VAR"));
                         }
-                         this.posicionDefVar.add(new Dato(this.cargaInformacion.codigoArchivo.indexOf(e) + 1, " LA VARIABLE YA EXISTE " + variable.nombre));
 
-                        // (this.cargaInformacion.codigoArchivo.indexOf(e) + 1);
+                        if (esVariable) {
+                            String[] arr = this.cargaInformacion.codigoArchivo.get(i).split(":");
+                            variable.nombre = arr[0];
+                            variable.tipoDato = arr[1];
+
+                            if (this.varCreadas.contains(variable)) {
+
+                                this.posicionDefVar.add(new Dato(i + 1, " LA VARIABLE YA EXISTE " + variable.toString()));
+                            } else {
+                                this.varCreadas.add(variable);
+                            }
+                        } else {
+                            this.posicionDefVar.add(new Dato(i + 1, " LA VARIABLE [" + this.cargaInformacion.codigoArchivo.get(i) + "]NO CUMPLE CON LOS CRITERIOS "));
+                        }
+
                     }
+
                 }
             }
 
             //Collections.sort(posicionVar);
             System.out.println("Esta Vacia posDefVar " + this.posicionDefVar.isEmpty());
 
-            return this.posicionDefVar.isEmpty();
+            return this.posicionDefVar.isEmpty() || this.posicionVar.isEmpty();
 
         } catch (Exception e) {
             System.out.println("Clase Valida-> ValidaVar()=> " + e.getMessage());
@@ -694,42 +715,53 @@ public class Valida {
     private boolean ValidaBeginEnd() {//Solo esta validando de momento si End esta antes ubicado que Begin
         try {
 
-            String patron = "BEGIN";
-            String patron2 = "(END\\s+\\.)";
-
-            Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
-            Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
-
             int posBegin = 0;
             int posEnd = 0;
             //ArrayList<String> temp = new ArrayList<>();
-            boolean resultado1 = true;
-            boolean resultado2 = true;
+            boolean resultado1 = false;
+            boolean resultado2 = false;
+            for (String end : this.cargaInformacion.codigoArchivo) {
+
+                if (!end.isEmpty()) {
+                    String patron2 = "(END\\s+\\.)";
+                    Pattern ptr2 = Pattern.compile(patron2, Pattern.CASE_INSENSITIVE);
+                    Matcher mtch2 = ptr2.matcher(end);
+                    resultado2 = mtch2.matches();
+
+                    if (resultado2) {
+
+                        if (posEnd == 0) {
+                            posEnd = this.cargaInformacion.codigoArchivo.indexOf(end) + 1;
+
+                            this.posEnd = posEnd;
+                            System.out.println(" End" + posEnd);
+                        }
+
+                    }
+
+                }
+            }
             for (String e : this.cargaInformacion.codigoArchivo) {
+                String patron = "BEGIN";
+
+                Pattern ptr1 = Pattern.compile(patron, Pattern.CASE_INSENSITIVE);
 
                 int posicion = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
 
                 Matcher mtch1 = ptr1.matcher(e);
-                Matcher mtch2 = ptr2.matcher(e);
 
                 resultado1 = mtch1.find();
-                resultado2 = mtch2.find();
 
                 if (!e.isEmpty()) {
                     if (resultado1) {
-                        posBegin = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-                        // System.out.println(" Begin"+posBegin);
-                        this.posBegin = posBegin;
+                        if (posBegin == 0) {
+                            posBegin = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
+                            // System.out.println(" Begin"+posBegin);
+                            this.posBegin = posBegin;
+                        }
+
                     }
 
-                }
-                if (!e.isEmpty()) {
-                    if (resultado2) {
-                        posEnd = this.cargaInformacion.codigoArchivo.indexOf(e) + 1;
-
-                        this.posEnd = posEnd;
-                        //System.out.println(" End"+posEnd);
-                    }
                 }
 
             }
@@ -747,12 +779,12 @@ public class Valida {
 
                     this.posicionBeginEnd.add(posEnd);//solo esta guardando la posicion de END para generar el error luego
                 }
-
-            } else {
-                this.posicionBeginEnd.add(posBegin);
-                this.posicionBeginEnd.add(posEnd);
             }
 
+//            } else {
+//                this.posicionBeginEnd.add(posBegin);
+//                this.posicionBeginEnd.add(posEnd);
+//            }
             Collections.sort(posicionBeginEnd);
 
             return this.posicionBeginEnd.isEmpty();
@@ -855,7 +887,7 @@ public class Valida {
 
     private void MensajeError(String msgE, int nLn) {
         try {
-            System.out.println("Generando ERRORES...");
+            //  System.out.println("Generando ERRORES...");
             String strL = null;
             String str = null;
             strL = this.cargaInformacion.lineasParaArchivoErrores.get(nLn);
@@ -876,11 +908,11 @@ public class Valida {
 
         while (imprimir == true) {
             this.posicionPuntoComa.forEach((e) -> {
-                System.out.println("Lineas que no tienen Punto y Coma-> " + e);
+                //    System.out.println("Lineas que no tienen Punto y Coma-> " + e);
             });
 
             this.posicionTamanoLinea.forEach((e) -> {
-                System.out.println("Linea que excede el tamano-> " + e);
+                //  System.out.println("Linea que excede el tamano-> " + e);
             });
             int val = 0;
 
@@ -896,7 +928,7 @@ public class Valida {
             });
 
             this.posicionDefVar.forEach((e) -> {
-                System.out.println("Linea Definicion Variable Error-> " + e);
+                //   System.out.println("Linea Definicion Variable Error-> " + e);
             });
 
             this.posicionReservadas.forEach((e) -> {

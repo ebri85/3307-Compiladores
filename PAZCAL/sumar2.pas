@@ -20,6 +20,7 @@ PROgram    suMAR12$ (output);
 PROgram    suMAR ;
 PROgram    suMAR 
 
+
     SUMA LA CANTIDAD DE NUMEROS QUE SE INDICA CUANDO    
     SE EJECUTA     EL PROGRAMA Y SE PIDE UN VALOR 
         PARA LA VARIABLE LLAMADA CUANTOS
@@ -106,7 +107,10 @@ BEgin
   TEXTcolor( YELLOW );           { COLOR AMARILLO }
   textBACKGROUND( RED );         { FONDO ROJO }
   gotoXY( 20, 5 );               { VAMOS A UNA POSICION DE LA PANTALLA }
-
+READln ( cuantoS 
+READln ( cuantoS )
+READln ( cuantoS, input );
+READln ( input,cuantoS );
   WRITEln ( OUTput, 'INDIQUE LA CANTIDAD DE NUMEROS A SUMAR:' );
   DElaY( 1000 );  (* HACE UNA PAUSA *)
   READln ( cuantoS );
@@ -127,6 +131,9 @@ BEgin
   wrITELN ( OUTPUT );
   writeLN ( 'SUMANDO...' );
   writeln;
+hola
+probando
+las faltas de comas
 
   REPeat
     WRITELN ( output, 'INDIQUE EL NUMERO A SUMAR:' );
